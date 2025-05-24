@@ -38,19 +38,15 @@ Hello everyone, this is Harrison's personal academic homepage. My research inter
 </div>
 </div>
 
-- [Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet](https://github.com), A, B, C, **CVPR 2020**
+- [A Dual-Branch Generative Adversarial Network with Self-Supervised Enhancement for Robust Auditory Attention Decoding] **EAAI**
+- [Active Domain Adaptation Based on Probabilistic Fuzzy c-means Clustering for Pancreatic Tumor Segmentation] **TFS**
+- [SSAAD: A Multi-Scale Temporal-Frequency Graph Network for Binary Auditory Attention Detection with Self-Supervised Learning] **Icassp 2025**
+- [SVTNet: Dual Branch of Swin Transformer and Vision Transformer for Monocular Depth Estimation] **Icassp 2025**
+ 
 
 # 🎖 Honors and Awards
-- *2021.10* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.09* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+
 
 # 📖 Educations
-- *2019.06 - 2022.04 (now)*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2015.09 - 2019.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-
-# 💬 Invited Talks
-- *2021.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/)
-
-# 💻 Internships
-- *2019.05 - 2020.02*, [Lorem](https://github.com/), China.
+- *2023.06 - now*, Department of Control Science and Engineering, University of Shanghai for Science and Technology.
+  
