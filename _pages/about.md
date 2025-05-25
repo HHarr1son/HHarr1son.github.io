@@ -17,7 +17,11 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Hello everyone, this is Harrison's personal academic homepage. My research interests include neural decoding and EEG image and video reconstruction.
+Hello everyone, this is Harrison's personal academic homepage. 
+
+My research interests include neural decoding and EEG image and video reconstruction.
+
+Mentor: Yongxiong Wang
 
 
 # 🔥 News
