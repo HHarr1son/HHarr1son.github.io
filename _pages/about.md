@@ -44,7 +44,7 @@ Hello everyone, this is Harrison's personal academic homepage. My research inter
 
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TFS</div><img src='images/hh1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TFS</div><img src='images/qc1.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Active Domain Adaptation Based on Probabilistic Fuzzy c-means Clustering for Pancreatic Tumor Segmentation]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
