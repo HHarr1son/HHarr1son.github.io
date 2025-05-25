@@ -33,12 +33,11 @@ Hello everyone, this is Harrison's personal academic homepage. My research inter
 
 [CCSUMSP: A cross-subject Chinese speech decoding framework with unified topology and multi-modal semantic pre-training]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 
-**Shuai Huang**, Yongxiong Wang, Huan Luo
 
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">EAAI</div><img src='images/hh1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">EAAI</div><img src='images/eaai.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [A Dual-Branch Generative Adversarial Network with Self-Supervised Enhancement for Robust Auditory Attention Decoding]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
