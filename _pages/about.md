@@ -36,11 +36,60 @@ Hello everyone, this is Harrison's personal academic homepage. My research inter
 **Shuai Huang**, Yongxiong Wang, Huan Luo
 
 </div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">EAAI</div><img src='images/hh1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[A Dual-Branch Generative Adversarial Network with Self-Supervised Enhancement for Robust Auditory Attention Decoding]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+
 </div>
 
-- [A Dual-Branch Generative Adversarial Network with Self-Supervised Enhancement for Robust Auditory Attention Decoding] **EAAI**
-- [Active Domain Adaptation Based on Probabilistic Fuzzy c-means Clustering for Pancreatic Tumor Segmentation] **TFS**
-- [SSAAD: A Multi-Scale Temporal-Frequency Graph Network for Binary Auditory Attention Detection with Self-Supervised Learning] **Icassp 2025**
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TFS</div><img src='images/hh1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[Active Domain Adaptation Based on Probabilistic Fuzzy c-means Clustering for Pancreatic Tumor Segmentation]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICASSP2025</div><img src='images/hh4.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[SSAAD: A Multi-Scale Temporal-Frequency Graph Network for Binary Auditory Attention Detection with Self-Supervised Learning]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh3.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[MINDEV: Multi-modal Integrated Diffusion Framework for Video Reconstruction from EEG Signals]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh2.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[MIRVIS: EEG-based Multi-Integration Reconstruction Architecture for Visual Imagery Synthesis]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh6.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[MindIntent:Zero-shotVisualIntentCross-domainAlignmentand RepresentationinHumanBrain]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh7.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[FocusWhereItMatters:LLM-GuidedAttentionPriorsforFew-Shot Segmentation]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh8.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[MindVAR:Time-sensitive Cross-modal Video Autoregressive Reconstruction from Human Brain Activity]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+
+
+
 - [SVTNet: Dual Branch of Swin Transformer and Vision Transformer for Monocular Depth Estimation] **Icassp 2025**
  
 
