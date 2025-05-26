@@ -107,6 +107,12 @@ Mentor: Yongxiong Wang
 </div>
 </div>
 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/w1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[TemporalDifferenceSideNetworkforEfficientVideoActionRecognition]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+</div>
 
 
 
