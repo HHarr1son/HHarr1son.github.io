@@ -63,6 +63,15 @@ Mentor: Yongxiong Wang
 </div>
 </div>
 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICASSP</div><img src='images/j1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+[SVTNet: Dual Branch of Swin Transformer and Vision Transformer for Monocular Depth Estimation]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+</div>
+</div>
+
+
+
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh3.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
@@ -100,7 +109,7 @@ Mentor: Yongxiong Wang
 
 
 
-- [SVTNet: Dual Branch of Swin Transformer and Vision Transformer for Monocular Depth Estimation] **Icassp 2025**
+
  
 
 # 🎖 Honors and Awards
