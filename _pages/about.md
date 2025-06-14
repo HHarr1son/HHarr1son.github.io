@@ -29,6 +29,8 @@ Mentor: Yongxiong Wang
 - *2025.02*: &nbsp;🎉🎉 Information Fusion
 - *2025.04*: &nbsp;🎉🎉 IEEE Transactions on Fuzzy Systems
 - *2025.05*: &nbsp;🎉🎉 Engineering Applications of Artificial Intelligence
+- *2025.05*: &nbsp;🎉🎉 IEEE Transactions on Multimedia
+- *2025.06*: &nbsp;🎉🎉 IEEE Transactions on Neural Networks and Learning Systems
 
 # 📝 Publications 
 
