@@ -25,7 +25,7 @@ Mentor: Yongxiong Wang
 
 
 # 🔥 News
-- *2024.12*: &nbsp;🎉🎉 Icassp2025 
+- *2024.12*: &nbsp;🎉🎉 Icassp 2025 
 - *2025.02*: &nbsp;🎉🎉 Information Fusion
 - *2025.04*: &nbsp;🎉🎉 IEEE Transactions on Fuzzy Systems
 - *2025.05*: &nbsp;🎉🎉 Engineering Applications of Artificial Intelligence
