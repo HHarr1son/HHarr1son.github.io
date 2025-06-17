@@ -74,42 +74,42 @@ Mentor: Yongxiong Wang
 
 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh3.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arxiv</div><img src='images/hh3.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [MINDEV: Multi-modal Integrated Diffusion Framework for Video Reconstruction from EEG Signals]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh2.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arxiv</div><img src='images/hh2.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [MIRVIS: EEG-based Multi-Integration Reconstruction Architecture for Visual Imagery Synthesis]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh6.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TNNLS</div><img src='images/hh6.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-[MindIntent:Zero-shotVisualIntentCross-domainAlignmentand RepresentationinHumanBrain]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
+[MindIntent:Zero-shot Visual Intent Cross-domain Alignment and Representation in Human Brain]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh7.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arxiv</div><img src='images/hh7.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [FocusWhereItMatters:LLM-GuidedAttentionPriorsforFew-Shot Segmentation]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/hh8.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TMM</div><img src='images/hh8.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [MindVAR:Time-sensitive Cross-modal Video Autoregressive Reconstruction from Human Brain Activity]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arvix</div><img src='images/w1.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arxiv</div><img src='images/w1.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [TemporalDifferenceSideNetworkforEfficientVideoActionRecognition]([https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf](https://www.sciencedirect.com/science/article/abs/pii/S1566253525000958))
