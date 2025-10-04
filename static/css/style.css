@@ -237,18 +237,91 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     padding: 14px;
+    gap: 8px;
 }
 
 .left-tag-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 28px;
-    margin: 0px 5px 5px 0;
-    padding: 10px;
+    height: 32px;
+    padding: 0 14px;
     font-size: 13px;
-    border-radius: 10px;
+    font-weight: 500;
+    border-radius: 16px;
     background: var(--left_tag_item);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tag-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    fill: currentColor;
+    transition: transform 0.3s ease;
+}
+
+.left-tag-item:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.left-tag-item:hover .tag-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Python - Blue/Yellow gradient */
+.tag-python {
+    background: linear-gradient(135deg, #306998 0%, #FFD43B 100%);
+    color: #ffffff;
+}
+
+.tag-python:hover {
+    background: linear-gradient(135deg, #244d7a 0%, #ffc61a 100%);
+}
+
+/* PhD - Purple gradient */
+.tag-phd {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+}
+
+.tag-phd:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #5f3c83 100%);
+}
+
+/* EEG - Red/Pink gradient */
+.tag-eeg {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: #ffffff;
+}
+
+.tag-eeg:hover {
+    background: linear-gradient(135deg, #e67ce8 0%, #e44258 100%);
+}
+
+/* Multimodal - Teal/Green gradient */
+.tag-multimodal {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: #ffffff;
+}
+
+.tag-multimodal:hover {
+    background: linear-gradient(135deg, #3b92e5 0%, #00d9e5 100%);
+}
+
+/* CS - Orange gradient */
+.tag-cs {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: #ffffff;
+}
+
+.tag-cs:hover {
+    background: linear-gradient(135deg, #e85d85 0%, #f5d426 100%);
 }
 
 #line {
