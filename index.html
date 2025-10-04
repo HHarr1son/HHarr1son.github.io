@@ -39,15 +39,18 @@
 						<div class="info-value">Shanghai, China</div>
 					</div>
 				</div>
-				<div class="left-des-item info-school">
+				<a href="https://www.usst.edu.cn/" target="_blank" class="left-des-item info-school clickable">
 					<div class="info-icon-wrapper">
-						<svg class="info-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M729.6 234.666667H294.4V157.866667a51.2 51.2 0 0 1 51.2-51.2h332.8a51.2 51.2 0 0 1 51.2 51.2v76.8z m179.2 51.2a51.2 51.2 0 0 1 51.2 51.2v512a51.2 51.2 0 0 1-51.2 51.2H115.2a51.2 51.2 0 0 1-51.2-51.2v-512a51.2 51.2 0 0 1 51.2-51.2h793.557333z m-768 172.032c0 16.384 13.312 29.696 29.696 29.696h683.008a29.696 29.696 0 1 0 0-59.392H170.410667a29.696 29.696 0 0 0-29.696 29.696z m252.416 118.784c0 16.384 13.312 29.696 29.696 29.696h178.176a29.696 29.696 0 1 0 0-59.392H422.912a29.738667 29.738667 0 0 0-29.696 29.696z"/></svg>
+						<img src="./static/img/usst-logo.png" alt="USST Logo" class="school-logo">
 					</div>
 					<div class="info-content">
 						<div class="info-label">University</div>
 						<div class="info-value">USST</div>
 					</div>
-				</div>
+					<svg class="link-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/>
+					</svg>
+				</a>
 			</div>
 			<div class="left-div left-tag">
 				<div class="left-tag-item tag-python">
@@ -71,44 +74,58 @@
 					CS2
 				</div>
 			</div>
-			<div class="left-div left-time">
-				<ul id="line">
-					<li>
-						<div class="focus"></div>
-						<div>敬请期待
+			<div class="left-div left-timeline">
+				<div class="timeline-header">
+					<svg class="timeline-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+						<path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"/>
+						<path d="M686.7 638.6L544.1 535.5V288c0-17.7-14.3-32-32-32s-32 14.3-32 32v272.4c0 10.6 5.2 20.5 14.1 26.5l165.8 120.3c14.7 10.7 35.2 7.5 45.9-7.2 10.7-14.7 7.5-35.2-7.2-45.9z"/>
+					</svg>
+					<span>Timeline</span>
+				</div>
+				<div class="timeline-list">
+					<div class="timeline-item active">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">敬请期待</div>
+							<div class="timeline-date">2024.1</div>
 						</div>
-						<div>2024.1</div>
-					</li>
-					<li>
-						<div class="focus"></div>
-						<div>ICP备案成功
+					</div>
+					<div class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">ICP备案成功</div>
+							<div class="timeline-date">2023.8</div>
 						</div>
-						<div>2023.8</div>
-					</li>
-					<li>
-						<div class="focus"></div>
-						<div>注册域名zyyo.net
+					</div>
+					<div class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">注册域名zyyo.net</div>
+							<div class="timeline-date">2023.3</div>
 						</div>
-						<div>2023.3</div>
-					</li>
-					<li>
-						<div class="focus"></div>
-						<div>出来后洗心革面
+					</div>
+					<div class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">出来后洗心革面</div>
+							<div class="timeline-date">2021.2</div>
 						</div>
-						<div>2021.2</div>
-					</li>
-					<li>
-						<div class="focus"></div>
-						<div>...
+					</div>
+					<div class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">...</div>
+							<div class="timeline-date">...</div>
 						</div>
-						<div>...</div>
-					</li>
-					<li>
-						<div class="focus"></div>
-						<div>搭建第一个网站</div>
-						<div>2018.1</div>
-					</li>
-				</ul>
+					</div>
+					<div class="timeline-item">
+						<div class="timeline-dot"></div>
+						<div class="timeline-content">
+							<div class="timeline-title">搭建第一个网站</div>
+							<div class="timeline-date">2018.1</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="zyyo-right">
@@ -121,11 +138,21 @@
 					Welcome to <span class="gradientText">
 						Harrison's </span> homepage </span>
 				</div>
-				<div class="description">👦 Hello, I‘m <span class="purpleText">Harrison<span>（黄帅 in chinese）</span>
+				<div class="description bio-section">
+					<p class="bio-intro">
+						👦 Hello, I'm <span class="purpleText">Harrison</span> <span class="chinese-name">（黄帅）</span>
+					</p>
+					<p class="bio-text">
+						My research interests are <strong>EEG decoding</strong> and <strong>multimodal generation</strong>.
+						I am currently studying at <a href="https://www.usst.edu.cn/" target="_blank" class="link-highlight">University of Shanghai for Science and Technology (USST)</a>
+						under the supervision of <a href="#" target="_blank" class="link-highlight">Professor Wang Yongxiong</a>.
+						Prior to this, I studied for my undergraduate degree at <span class="text-highlight">Beijing Forestry University</span>.
+					</p>
 				</div>
-				
-				<div class="description">📝 Embrace life with passion, 
-					pursue what makes your heart sing.</div>
+
+				<div class="description quote-section">
+					📝 <em>Embrace life with passion, pursue what makes your heart sing.</em>
+				</div>
 
 				<div class="iconContainer">
 					<a class="iconItem" onclick="" href="https://github.com/HHarr1son">
@@ -188,7 +215,7 @@
 <div class="projectList">
     <div class="paperItem">
         <div class="paperLeft">
-            <img src="./static/img/nips.png" alt="Paper Image" class="paperImage">
+            <img src="./static/nips.png" alt="Paper Image" class="paperImage">
         </div>
         <div class="paperRight">
             <h3 class="paperTitle">NEED: 
@@ -225,17 +252,13 @@ Han Chen, Shuwen Jia, Siyi Sun, Yongxiong Wang*
             <img src="./static/img/nips.png" alt="Paper Image" class="paperImage">
         </div>
         <div class="paperRight">
-            <h3 class="paperTitle">NEED:
-Cross-Subject and Cross-Task Generalization
-for Video and Image Reconstruction
-from EEG Signals
+            <h3 class="paperTitle">MINDEV: Multi-modal Integrated Diffusion Framework for Video Reconstruction from EEG Signals
 </h3>
-            <p class="paperAuthor"><span class="firstAuthor">Shuai Huang</span>, Huan Luo, Haodong Jing, Qixian Zhang,
-Litao Chang, Yating Feng, Xiao Lin, Chendong Qin,
-Han Chen, Shuwen Jia, Siyi Sun, Yongxiong Wang*
+            <p class="paperAuthor"><span class="firstAuthor">Shuai Huang</span>, Yongxiong Wang*, Huan Luo, Haodong Jing, Chendong Qin, Jingqun Tang 
+
 </p>
             <div class="paperVenue">
-                <span class="venueName">NeurIPS 2025</span>
+                <span class="venueName">ACMMM 2025</span>
             </div>
             <p class="paperDate">Accepted: January 2025</p>
             <div class="paperLinks">
