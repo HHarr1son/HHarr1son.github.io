@@ -604,14 +604,15 @@ body {
 .paperItem {
     margin: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: var(--item_bg_color);
     border-radius: 8px;
     padding: 20px;
-    width: calc(50% - 20px);
+    width: calc(100% - 20px);
     backdrop-filter: blur(var(--card_filter));
     -webkit-backdrop-filter: blur(var(--card_filter));
     transition: opacity 0.3s ease, background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    gap: 20px;
 }
 
 .paperItem:hover {
@@ -620,23 +621,69 @@ body {
     background-color: var(--item_hover_color);
 }
 
-.paperContent {
+.paperLeft {
+    flex-shrink: 0;
+    width: 200px;
+    height: 150px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--text_bg_color);
+}
+
+.paperImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.paperRight {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex: 1;
+    justify-content: space-between;
 }
 
 .paperTitle {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--item_left_title_color);
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
 }
 
 .paperAuthor {
     font-size: 14px;
     color: var(--item_left_text_color);
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
+}
+
+.paperVenue {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.venueName {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--purple_text_color);
+}
+
+.venueLogo {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.paperDate {
+    font-size: 13px;
+    color: var(--item_left_text_color);
+    margin: 0 0 12px 0;
+    font-style: italic;
 }
 
 .paperLinks {
@@ -647,12 +694,13 @@ body {
 
 .paperLink {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 6px 14px;
     font-size: 13px;
     border-radius: 6px;
     background: var(--left_tag_item);
     transition: transform 0.2s ease, opacity 0.2s ease;
     text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .paperLink:hover {
@@ -696,6 +744,12 @@ footer {
 
     .paperItem {
         width: calc(100% - 20px);
+        flex-direction: column;
+    }
+
+    .paperLeft {
+        width: 100%;
+        height: 180px;
     }
 }
 
@@ -784,14 +838,33 @@ footer {
     .paperItem {
         width: calc(100% - 30px);
         margin: 8px 15px;
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .paperLeft {
+        width: 100%;
+        height: 160px;
     }
 
     .paperTitle {
-        font-size: 16px;
+        font-size: 17px;
     }
 
     .paperAuthor {
         font-size: 13px;
+    }
+
+    .venueName {
+        font-size: 14px;
+    }
+
+    .venueLogo {
+        height: 25px;
+    }
+
+    .paperDate {
+        font-size: 12px;
     }
 
     .paperLink {
