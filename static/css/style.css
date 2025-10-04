@@ -644,17 +644,25 @@ body {
 }
 
 .paperTitle {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     color: var(--item_left_title_color);
     margin: 0 0 8px 0;
     line-height: 1.3;
 }
 
 .paperAuthor {
-    font-size: 14px;
-    color: var(--item_left_text_color);
+    font-size: 13px;
+    font-style: italic;
+    color: #999;
     margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.firstAuthor {
+    font-weight: 700;
+    font-style: normal;
+    color: var(--purple_text_color);
 }
 
 .paperVenue {
@@ -693,7 +701,9 @@ body {
 }
 
 .paperLink {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 6px 14px;
     font-size: 13px;
     border-radius: 6px;
@@ -701,6 +711,12 @@ body {
     transition: transform 0.2s ease, opacity 0.2s ease;
     text-decoration: none;
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.paperLink svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--fill);
 }
 
 .paperLink:hover {
@@ -848,11 +864,11 @@ footer {
     }
 
     .paperTitle {
-        font-size: 17px;
+        font-size: 18px;
     }
 
     .paperAuthor {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .venueName {
