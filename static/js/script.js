@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     var html = document.querySelector('html');
-    var themeState = getCookie("themeState") || "Light";
+    var themeState = getCookie("themeState") || "Dark";
     var tanChiShe = document.getElementById("tanChiShe");
 
 
@@ -234,4 +234,23 @@ window.addEventListener('load', function() {
         pageLoading.style.opacity = '0';
     }, 100);
 });
+
+// Visitor Counter
+(function() {
+    const STORAGE_KEY = 'harrison_visitor_count';
+    let count = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+    count++;
+    localStorage.setItem(STORAGE_KEY, count.toString());
+
+    const visitorCountElement = document.getElementById('visitor-count');
+    if (visitorCountElement) {
+        // Add animation
+        visitorCountElement.style.opacity = '0';
+        setTimeout(function() {
+            visitorCountElement.textContent = count.toLocaleString();
+            visitorCountElement.style.transition = 'opacity 0.5s ease';
+            visitorCountElement.style.opacity = '1';
+        }, 500);
+    }
+})();
 
