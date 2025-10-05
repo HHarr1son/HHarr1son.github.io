@@ -458,13 +458,18 @@ body {
 }
 
 .tanChiShe {
-    width: 85%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .tanChiShe img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
+    max-width: 100%;
 }
 
 .title {
@@ -1204,8 +1209,8 @@ footer {
 }
 
 .firstAuthor {
-    font-weight: 800;
-    font-size: 18px;
+    font-weight: 1000;
+    font-size: 17px;
     color: #5865F2;
     font-style: normal;
 }
