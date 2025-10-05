@@ -431,30 +431,35 @@ body {
 }
 
 .link-highlight {
-    color: var(--purple_text_color);
-    text-decoration: none;
+    color: #667eea;
+    text-decoration: underline;
+    text-decoration-color: rgba(102, 126, 234, 0.4);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
     font-weight: 600;
     position: relative;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .link-highlight:hover {
-    color: #667eea;
+    color: #764ba2;
+    text-decoration-color: #764ba2;
 }
 
-.link-highlight::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    transition: width 0.3s ease;
+.inline-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    vertical-align: middle;
+    display: inline-block;
+    transition: transform 0.3s ease;
 }
 
-.link-highlight:hover::after {
-    width: 100%;
+.link-highlight:hover .inline-icon {
+    transform: scale(1.2);
 }
 
 .text-highlight {
