@@ -58,6 +58,17 @@ tc_main[0].addEventListener('click', function (event) {
     event.stopPropagation();
 });
 
+// Paper image click to enlarge
+document.addEventListener('DOMContentLoaded', function() {
+    var paperImages = document.querySelectorAll('.paperImage');
+    paperImages.forEach(function(img) {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+            pop(this.src);
+        });
+    });
+});
+
 
 
 function setCookie(name, value, days) {
