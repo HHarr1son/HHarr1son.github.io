@@ -462,6 +462,22 @@ body {
     transform: scale(1.2);
 }
 
+.school-logo-inline {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.research-highlight {
+    font-weight: 700;
+    color: var(--purple_text_color);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
 .text-highlight {
     color: var(--purple_text_color);
     font-weight: 600;
