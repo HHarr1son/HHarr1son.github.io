@@ -432,10 +432,7 @@ body {
 
 .link-highlight {
     color: #667eea;
-    text-decoration: underline;
-    text-decoration-color: rgba(102, 126, 234, 0.4);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
+    text-decoration: none;
     font-weight: 600;
     position: relative;
     transition: all 0.3s ease;
@@ -446,7 +443,18 @@ body {
 
 .link-highlight:hover {
     color: #764ba2;
+}
+
+.link-highlight.bio-link {
+    text-decoration: underline;
+    text-decoration-color: #667eea;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+}
+
+.link-highlight.bio-link:hover {
     text-decoration-color: #764ba2;
+    text-decoration-thickness: 2.5px;
 }
 
 .inline-icon {
