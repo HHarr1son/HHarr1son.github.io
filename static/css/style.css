@@ -1188,9 +1188,11 @@ footer {
 }
 
 .paperAffiliations img {
-    height: 24px;
+    height: 32px;
+    max-width: 80px;
     width: auto;
-    opacity: 0.8;
+    object-fit: contain;
+    opacity: 0.7;
     transition: opacity 0.2s;
 }
 
