@@ -1204,8 +1204,9 @@ footer {
 }
 
 .firstAuthor {
-    font-weight: 700;
-    color: var(--purple_text_color);
+    font-weight: 800;
+    font-size: 15px;
+    color: #5865F2;
     font-style: normal;
 }
 
@@ -1274,12 +1275,11 @@ footer {
 }
 
 .paperAffiliations img {
-    height: 28px;
-    max-width: 60px;
-    width: auto;
+    height: 32px;
+    width: 50px;
     object-fit: contain;
     opacity: 0.5;
-    padding: 6px 10px;
+    padding: 6px 8px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
