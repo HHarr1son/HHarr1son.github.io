@@ -1092,10 +1092,40 @@ body {
     font-style: italic;
 }
 
+.paperBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 15px;
+    margin-top: auto;
+}
+
 .paperLinks {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+.paperAffiliations {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.paperAffiliations img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 6px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.paperAffiliations img:hover {
+    transform: scale(1.15);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .paperLink {
