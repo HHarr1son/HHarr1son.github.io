@@ -1332,6 +1332,24 @@ footer {
     box-shadow: 0 4px 12px rgba(116, 123, 255, 0.3);
 }
 
+/* Scholarship icon - graduation cap, blue gradient */
+.awardIcon.scholarship-icon {
+    background: linear-gradient(135deg, #4A90E2, #357ABD);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+/* Competition icon - medal/trophy, gold gradient */
+.awardIcon.competition-icon {
+    background: linear-gradient(135deg, #F5A623, #E68A00);
+    box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+}
+
+/* Honor icon - star, purple gradient (default) */
+.awardIcon.honor-icon {
+    background: linear-gradient(135deg, #9B59B6, #8E44AD);
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
 .awardIcon svg {
     width: 28px;
     height: 28px;
