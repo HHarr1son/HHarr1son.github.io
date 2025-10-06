@@ -510,6 +510,57 @@ with Self-Supervised Learning
 						<img src="https://skillicons.dev/icons?i=c,cpp,py,rust,matlab,linux,github,pytorch,tensorflow,opencv,git,zig,ubuntu,svg,r,pr,ps,latex,js,instagram,htmx,html,twitter,visualstudio,vscode,pycharm,anaconda,linkedin,docker,vim,gmail,gcp&theme=dark&perline=15" alt="My Skills">
 					</a>
 				</div>
+
+				<!-- Message Board Section -->
+				<div class="title">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" fill="currentColor"/>
+					</svg>
+					Message Board
+				</div>
+
+				<div class="messageBoard">
+					<div class="boardControls">
+						<div class="controlGroup">
+							<button class="controlBtn" id="addTextBtn">
+								<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 10h8v2H8v-2zm0 4h8v2H8v-2z" fill="currentColor"/>
+								</svg>
+								Add Text
+							</button>
+							<button class="controlBtn" id="addImageBtn">
+								<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="currentColor"/>
+								</svg>
+								Add Image
+							</button>
+							<input type="file" id="imageInput" accept="image/*" style="display: none;">
+						</div>
+						<div class="controlGroup">
+							<label for="fontSizeRange">Size:</label>
+							<input type="range" id="fontSizeRange" min="12" max="72" value="24">
+							<select id="fontFamilySelect">
+								<option value="'b', 'a', sans-serif">Default</option>
+								<option value="'title', cursive">Title</option>
+								<option value="'Courier New', monospace">Monospace</option>
+								<option value="'Georgia', serif">Serif</option>
+								<option value="'Comic Sans MS', cursive">Comic</option>
+								<option value="'Impact', fantasy">Impact</option>
+							</select>
+							<input type="color" id="colorPicker" value="#ffffff">
+						</div>
+						<button class="controlBtn deleteBtn" id="clearBoardBtn">
+							<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+								<path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
+							</svg>
+							Clear All
+						</button>
+					</div>
+
+					<div class="blackboard" id="blackboard">
+						<div class="boardTexture"></div>
+					</div>
+				</div>
 			</content>
 		</div>
 	</div>
