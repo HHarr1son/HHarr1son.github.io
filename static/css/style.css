@@ -601,8 +601,8 @@ body {
 
 .skill img {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
 }
 
 .skill #skillWap {
