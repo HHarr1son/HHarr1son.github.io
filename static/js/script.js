@@ -58,17 +58,6 @@ tc_main[0].addEventListener('click', function (event) {
     event.stopPropagation();
 });
 
-// Paper image click to enlarge
-document.addEventListener('DOMContentLoaded', function() {
-    var paperImages = document.querySelectorAll('.paperImage');
-    paperImages.forEach(function(img) {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            pop(this.src);
-        });
-    });
-});
-
 
 
 function setCookie(name, value, days) {
@@ -234,3 +223,227 @@ window.addEventListener('load', function() {
         pageLoading.style.opacity = '0';
     }, 100);
 });
+
+// Message Board Functionality
+(function() {
+    const blackboard = document.getElementById('blackboard');
+    const addTextBtn = document.getElementById('addTextBtn');
+    const addImageBtn = document.getElementById('addImageBtn');
+    const imageInput = document.getElementById('imageInput');
+    const clearBoardBtn = document.getElementById('clearBoardBtn');
+    const fontSizeRange = document.getElementById('fontSizeRange');
+    const fontFamilySelect = document.getElementById('fontFamilySelect');
+    const colorPicker = document.getElementById('colorPicker');
+
+    if (!blackboard) return;
+
+    let draggedItem = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Load saved items from localStorage
+    function loadBoardItems() {
+        const saved = localStorage.getItem('messageBoardItems');
+        if (saved) {
+            try {
+                const items = JSON.parse(saved);
+                items.forEach(item => {
+                    if (item.type === 'text') {
+                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color);
+                    } else if (item.type === 'image') {
+                        createImageItem(item.src, item.x, item.y);
+                    }
+                });
+            } catch (e) {
+                console.error('Failed to load board items:', e);
+            }
+        }
+    }
+
+    // Save items to localStorage
+    function saveBoardItems() {
+        const items = [];
+        blackboard.querySelectorAll('.boardItem').forEach(item => {
+            const data = {
+                x: parseFloat(item.style.left) || 0,
+                y: parseFloat(item.style.top) || 0
+            };
+
+            if (item.classList.contains('textItem')) {
+                const textEl = item.querySelector('.boardText');
+                data.type = 'text';
+                data.content = textEl.textContent;
+                data.fontSize = textEl.style.fontSize;
+                data.fontFamily = textEl.style.fontFamily;
+                data.color = textEl.style.color;
+            } else if (item.classList.contains('imageItem')) {
+                const imgEl = item.querySelector('.boardImage');
+                data.type = 'image';
+                data.src = imgEl.src;
+            }
+
+            items.push(data);
+        });
+        localStorage.setItem('messageBoardItems', JSON.stringify(items));
+    }
+
+    // Create text item
+    function createTextItem(text, x, y, fontSize, fontFamily, color) {
+        const item = document.createElement('div');
+        item.className = 'boardItem textItem';
+        item.style.left = x + 'px';
+        item.style.top = y + 'px';
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'boardText';
+        textDiv.textContent = text;
+        textDiv.style.fontSize = fontSize || '24px';
+        textDiv.style.fontFamily = fontFamily || "'b', 'a', sans-serif";
+        textDiv.style.color = color || '#ffffff';
+
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'deleteItemBtn';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.onclick = function(e) {
+            e.stopPropagation();
+            item.remove();
+            saveBoardItems();
+        };
+
+        item.appendChild(textDiv);
+        item.appendChild(deleteBtn);
+        blackboard.appendChild(item);
+
+        makeDraggable(item);
+        return item;
+    }
+
+    // Create image item
+    function createImageItem(src, x, y) {
+        const item = document.createElement('div');
+        item.className = 'boardItem imageItem';
+        item.style.left = x + 'px';
+        item.style.top = y + 'px';
+
+        const img = document.createElement('img');
+        img.className = 'boardImage';
+        img.src = src;
+
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'deleteItemBtn';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.onclick = function(e) {
+            e.stopPropagation();
+            item.remove();
+            saveBoardItems();
+        };
+
+        item.appendChild(img);
+        item.appendChild(deleteBtn);
+        blackboard.appendChild(item);
+
+        makeDraggable(item);
+        return item;
+    }
+
+    // Make item draggable
+    function makeDraggable(item) {
+        item.addEventListener('mousedown', startDrag);
+        item.addEventListener('touchstart', startDrag);
+    }
+
+    function startDrag(e) {
+        draggedItem = this;
+        draggedItem.classList.add('dragging');
+
+        const rect = blackboard.getBoundingClientRect();
+        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+        offsetX = clientX - rect.left - parseFloat(draggedItem.style.left);
+        offsetY = clientY - rect.top - parseFloat(draggedItem.style.top);
+
+        e.preventDefault();
+    }
+
+    function drag(e) {
+        if (!draggedItem) return;
+
+        const rect = blackboard.getBoundingClientRect();
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+        let x = clientX - rect.left - offsetX;
+        let y = clientY - rect.top - offsetY;
+
+        // Keep within bounds
+        x = Math.max(0, Math.min(x, rect.width - draggedItem.offsetWidth));
+        y = Math.max(0, Math.min(y, rect.height - draggedItem.offsetHeight));
+
+        draggedItem.style.left = x + 'px';
+        draggedItem.style.top = y + 'px';
+
+        e.preventDefault();
+    }
+
+    function stopDrag() {
+        if (draggedItem) {
+            draggedItem.classList.remove('dragging');
+            saveBoardItems();
+            draggedItem = null;
+        }
+    }
+
+    // Event listeners
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('touchend', stopDrag);
+
+    // Add text button
+    addTextBtn.addEventListener('click', function() {
+        const text = prompt('Enter your message:');
+        if (text && text.trim()) {
+            const x = Math.random() * (blackboard.offsetWidth - 200);
+            const y = Math.random() * (blackboard.offsetHeight - 100);
+            const fontSize = fontSizeRange.value + 'px';
+            const fontFamily = fontFamilySelect.value;
+            const color = colorPicker.value;
+
+            createTextItem(text, x, y, fontSize, fontFamily, color);
+            saveBoardItems();
+        }
+    });
+
+    // Add image button
+    addImageBtn.addEventListener('click', function() {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const x = Math.random() * (blackboard.offsetWidth - 250);
+                const y = Math.random() * (blackboard.offsetHeight - 250);
+                createImageItem(event.target.result, x, y);
+                saveBoardItems();
+            };
+            reader.readAsDataURL(file);
+        }
+        imageInput.value = '';
+    });
+
+    // Clear board button
+    clearBoardBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear the entire board?')) {
+            blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
+            localStorage.removeItem('messageBoardItems');
+        }
+    });
+
+    // Load saved items on page load
+    loadBoardItems();
+})();
+
