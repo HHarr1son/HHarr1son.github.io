@@ -13,6 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" href="./static/css/style.css">
 	<link rel="stylesheet" href="./static/css/root.css">
+	<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&family=Fredoka+One&family=Permanent+Marker&family=Bebas+Neue&family=Righteous&family=Lobster&family=Indie+Flower&display=swap" rel="stylesheet">
 
 </head>
 
@@ -511,6 +512,48 @@ with Self-Supervised Learning
 					</a>
 				</div>
 
+				<!-- A Researcher's Day Section -->
+				<div class="title">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"/>
+					</svg>
+					A Researcher's Day
+				</div>
+
+				<div class="dayTimeline">
+					<div class="timelineSlider">
+						<input type="range" id="timeSlider" min="0" max="23" value="9" step="1">
+						<div class="timeDisplay">
+							<span id="currentTime">09:00</span>
+							<span id="currentActivity">Starting the day with coffee ☕</span>
+						</div>
+					</div>
+					<div class="activityScene" id="activityScene">
+						<div class="sceneIcon">☕</div>
+						<div class="sceneBubble" id="sceneBubble">First coffee of the day!</div>
+					</div>
+				</div>
+
+				<!-- Achievement Badge System -->
+				<div class="title">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+					</svg>
+					Visitor Achievements
+				</div>
+
+				<div class="achievementSystem">
+					<div class="achievementGrid" id="achievementGrid">
+						<!-- Badges will be dynamically added here -->
+					</div>
+					<div class="achievementProgress">
+						<div class="progressBar">
+							<div class="progressFill" id="progressFill" style="width: 0%"></div>
+						</div>
+						<div class="progressText" id="progressText">0 / 8 Achievements Unlocked</div>
+					</div>
+				</div>
+
 				<!-- Message Board Section -->
 				<div class="title">
 					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -542,6 +585,14 @@ with Self-Supervised Learning
 							<select id="fontFamilySelect">
 								<option value="'b', 'a', sans-serif">Default</option>
 								<option value="'title', cursive">Title</option>
+								<option value="'Pacifico', cursive">Pacifico</option>
+								<option value="'Dancing Script', cursive">Dancing Script</option>
+								<option value="'Fredoka One', cursive">Fredoka One</option>
+								<option value="'Permanent Marker', cursive">Permanent Marker</option>
+								<option value="'Bebas Neue', cursive">Bebas Neue</option>
+								<option value="'Righteous', cursive">Righteous</option>
+								<option value="'Lobster', cursive">Lobster</option>
+								<option value="'Indie Flower', cursive">Indie Flower</option>
 								<option value="'Courier New', monospace">Monospace</option>
 								<option value="'Georgia', serif">Serif</option>
 								<option value="'Comic Sans MS', cursive">Comic</option>
@@ -565,6 +616,48 @@ with Self-Supervised Learning
 
 					<div class="blackboard" id="blackboard">
 						<div class="boardTexture"></div>
+					</div>
+				</div>
+
+				<!-- Dynamic Data Visualization Section -->
+				<div class="title">
+					<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h2v7H7v-7zm4-3h2v10h-2V7zm4 6h2v4h-2v-4z" fill="currentColor"/>
+					</svg>
+					Live Statistics
+				</div>
+
+				<div class="dataVisualization">
+					<div class="statsGrid">
+						<div class="statCard">
+							<div class="statIcon">👥</div>
+							<div class="statValue" id="totalVisitors">0</div>
+							<div class="statLabel">Total Visitors</div>
+						</div>
+						<div class="statCard">
+							<div class="statIcon">🌍</div>
+							<div class="statValue" id="uniqueCountries">0</div>
+							<div class="statLabel">Countries</div>
+						</div>
+						<div class="statCard">
+							<div class="statIcon">📝</div>
+							<div class="statValue" id="messageCount">0</div>
+							<div class="statLabel">Messages</div>
+						</div>
+						<div class="statCard">
+							<div class="statIcon">⏱️</div>
+							<div class="statValue" id="avgTime">0s</div>
+							<div class="statLabel">Avg. Time</div>
+						</div>
+					</div>
+					<div class="visitChart">
+						<canvas id="visitChart" width="600" height="200"></canvas>
+					</div>
+					<div class="recentActivity">
+						<h3>Recent Activity</h3>
+						<div class="activityList" id="activityList">
+							<!-- Activities will be added dynamically -->
+						</div>
 					</div>
 				</div>
 			</content>
