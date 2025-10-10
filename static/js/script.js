@@ -241,6 +241,38 @@ window.addEventListener('load', function() {
     let offsetX = 0;
     let offsetY = 0;
 
+    // 获取或生成用户唯一ID
+    function getUserId() {
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', userId);
+        }
+        return userId;
+    }
+
+    // 检查是否是管理员
+    function isAdmin() {
+        return localStorage.getItem('isAdmin') === 'true';
+    }
+
+    // 管理员登录
+    function adminLogin() {
+        const password = prompt('Enter admin password:');
+        const correctPassword = 'admin123'; // 可以修改这个密码
+        if (password === correctPassword) {
+            localStorage.setItem('isAdmin', 'true');
+            alert('Admin access granted!');
+            updateDeleteButtons();
+            return true;
+        } else if (password) {
+            alert('Incorrect password!');
+        }
+        return false;
+    }
+
+    const currentUserId = getUserId();
+
     // Load saved items from localStorage
     function loadBoardItems() {
         const saved = localStorage.getItem('messageBoardItems');
@@ -249,9 +281,9 @@ window.addEventListener('load', function() {
                 const items = JSON.parse(saved);
                 items.forEach(item => {
                     if (item.type === 'text') {
-                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color);
+                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id);
                     } else if (item.type === 'image') {
-                        createImageItem(item.src, item.x, item.y);
+                        createImageItem(item.src, item.x, item.y, item.userId, item.id);
                     }
                 });
             } catch (e) {
@@ -265,6 +297,8 @@ window.addEventListener('load', function() {
         const items = [];
         blackboard.querySelectorAll('.boardItem').forEach(item => {
             const data = {
+                id: item.dataset.id,
+                userId: item.dataset.userId,
                 x: parseFloat(item.style.left) || 0,
                 y: parseFloat(item.style.top) || 0
             };
@@ -287,12 +321,35 @@ window.addEventListener('load', function() {
         localStorage.setItem('messageBoardItems', JSON.stringify(items));
     }
 
+    // 检查是否可以删除该项
+    function canDelete(itemUserId) {
+        return isAdmin() || itemUserId === currentUserId;
+    }
+
+    // 更新所有删除按钮的可见性
+    function updateDeleteButtons() {
+        blackboard.querySelectorAll('.boardItem').forEach(item => {
+            const deleteBtn = item.querySelector('.deleteItemBtn');
+            const itemUserId = item.dataset.userId;
+            if (canDelete(itemUserId)) {
+                deleteBtn.style.display = 'block';
+            } else {
+                deleteBtn.style.display = 'none';
+            }
+        });
+    }
+
     // Create text item
-    function createTextItem(text, x, y, fontSize, fontFamily, color) {
+    function createTextItem(text, x, y, fontSize, fontFamily, color, userId, id) {
+        userId = userId || currentUserId;
+        id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
         const item = document.createElement('div');
         item.className = 'boardItem textItem';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
+        item.dataset.userId = userId;
+        item.dataset.id = id;
 
         const textDiv = document.createElement('div');
         textDiv.className = 'boardText';
@@ -304,10 +361,13 @@ window.addEventListener('load', function() {
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'deleteItemBtn';
         deleteBtn.innerHTML = '×';
+        deleteBtn.style.display = canDelete(userId) ? 'block' : 'none';
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
-            item.remove();
-            saveBoardItems();
+            if (canDelete(userId)) {
+                item.remove();
+                saveBoardItems();
+            }
         };
 
         item.appendChild(textDiv);
@@ -319,11 +379,16 @@ window.addEventListener('load', function() {
     }
 
     // Create image item
-    function createImageItem(src, x, y) {
+    function createImageItem(src, x, y, userId, id) {
+        userId = userId || currentUserId;
+        id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
         const item = document.createElement('div');
         item.className = 'boardItem imageItem';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
+        item.dataset.userId = userId;
+        item.dataset.id = id;
 
         const img = document.createElement('img');
         img.className = 'boardImage';
@@ -332,10 +397,13 @@ window.addEventListener('load', function() {
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'deleteItemBtn';
         deleteBtn.innerHTML = '×';
+        deleteBtn.style.display = canDelete(userId) ? 'block' : 'none';
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
-            item.remove();
-            saveBoardItems();
+            if (canDelete(userId)) {
+                item.remove();
+                saveBoardItems();
+            }
         };
 
         item.appendChild(img);
@@ -435,13 +503,48 @@ window.addEventListener('load', function() {
         imageInput.value = '';
     });
 
-    // Clear board button
+    // Clear board button - 管理员功能
     clearBoardBtn.addEventListener('click', function() {
-        if (confirm('Are you sure you want to clear the entire board?')) {
-            blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
-            localStorage.removeItem('messageBoardItems');
+        if (!isAdmin()) {
+            if (adminLogin()) {
+                // 登录成功后继续清空操作
+                if (confirm('Are you sure you want to clear the entire board?')) {
+                    blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
+                    localStorage.removeItem('messageBoardItems');
+                }
+            }
+        } else {
+            if (confirm('Are you sure you want to clear the entire board?')) {
+                blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
+                localStorage.removeItem('messageBoardItems');
+            }
         }
     });
+
+    // Admin login button
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    if (adminLoginBtn) {
+        adminLoginBtn.addEventListener('click', function() {
+            if (isAdmin()) {
+                const logout = confirm('You are already logged in as admin. Do you want to logout?');
+                if (logout) {
+                    localStorage.removeItem('isAdmin');
+                    alert('Logged out successfully!');
+                    updateDeleteButtons();
+                    adminLoginBtn.textContent = 'Admin';
+                }
+            } else {
+                if (adminLogin()) {
+                    adminLoginBtn.textContent = 'Admin ✓';
+                }
+            }
+        });
+
+        // Update button text on load
+        if (isAdmin()) {
+            adminLoginBtn.textContent = 'Admin ✓';
+        }
+    }
 
     // Load saved items on page load
     loadBoardItems();
