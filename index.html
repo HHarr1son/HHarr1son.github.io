@@ -676,10 +676,41 @@ with Self-Supervised Learning
 
 	</div>
 </body>
+
+<!-- Firebase SDK -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getDatabase, ref, set, get, onValue, push, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFqILrES5rdRQ-FFDtUMtAjyc45ZKwFWU",
+    authDomain: "personal-web-f9827.firebaseapp.com",
+    databaseURL: "https://personal-web-f9827-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "personal-web-f9827",
+    storageBucket: "personal-web-f9827.firebasestorage.app",
+    messagingSenderId: "51238501949",
+    appId: "1:51238501949:web:075521f4c66c3fd8557454",
+    measurementId: "G-B7VLMC0JE1"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Make Firebase available globally
+  window.firebaseDB = database;
+  window.firebaseRef = ref;
+  window.firebaseSet = set;
+  window.firebaseGet = get;
+  window.firebaseOnValue = onValue;
+  window.firebasePush = push;
+  window.firebaseRemove = remove;
+  window.firebaseUpdate = update;
+</script>
+
 <script src="./static/js/script.js"> </script>
-
-
-
 
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>LA.init({ id: "KFqltKSkJgQTGD9l", ck: "KFqltKSkJgQTGD9l" })</script>
