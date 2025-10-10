@@ -282,7 +282,7 @@ window.addEventListener('load', function() {
                 const items = JSON.parse(saved);
                 items.forEach(item => {
                     if (item.type === 'text') {
-                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id, item.rotation, item.zIndex);
+                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id, item.rotation, item.zIndex, item.width, item.height);
                     } else if (item.type === 'image') {
                         createImageItem(item.src, item.x, item.y, item.userId, item.id, item.width, item.height, item.rotation, item.zIndex);
                     }
@@ -313,6 +313,8 @@ window.addEventListener('load', function() {
                 data.fontSize = textEl.style.fontSize;
                 data.fontFamily = textEl.style.fontFamily;
                 data.color = textEl.style.color;
+                data.width = parseFloat(item.style.width) || 300;
+                data.height = parseFloat(item.style.height) || 100;
             } else if (item.classList.contains('imageItem')) {
                 const imgEl = item.querySelector('.boardImage');
                 data.type = 'image';
@@ -345,16 +347,20 @@ window.addEventListener('load', function() {
     }
 
     // Create text item
-    function createTextItem(text, x, y, fontSize, fontFamily, color, userId, id, rotation, zIndex) {
+    function createTextItem(text, x, y, fontSize, fontFamily, color, userId, id, rotation, zIndex, width, height) {
         userId = userId || currentUserId;
         id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         rotation = rotation || 0;
         zIndex = zIndex || 1;
+        width = width || 300;
+        height = height || 100;
 
         const item = document.createElement('div');
         item.className = 'boardItem textItem';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
+        item.style.width = width + 'px';
+        item.style.height = height + 'px';
         item.style.zIndex = zIndex;
         item.dataset.userId = userId;
         item.dataset.id = id;
@@ -371,7 +377,9 @@ window.addEventListener('load', function() {
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'deleteItemBtn';
         deleteBtn.innerHTML = '×';
-        deleteBtn.style.display = canDelete(userId) ? 'block' : 'none';
+        if (!canDelete(userId)) {
+            deleteBtn.style.display = 'none !important';
+        }
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
             if (canDelete(userId)) {
@@ -379,6 +387,10 @@ window.addEventListener('load', function() {
                 saveBoardItems();
             }
         };
+
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'resizeHandle';
+        resizeHandle.innerHTML = '⇲';
 
         const rotateHandle = document.createElement('div');
         rotateHandle.className = 'rotateHandle';
@@ -396,12 +408,14 @@ window.addEventListener('load', function() {
 
         item.appendChild(textDiv);
         item.appendChild(deleteBtn);
+        item.appendChild(resizeHandle);
         item.appendChild(rotateHandle);
         item.appendChild(editBtn);
         item.appendChild(toolbar);
         blackboard.appendChild(item);
 
         makeDraggable(item);
+        makeResizable(item, resizeHandle);
         makeRotatable(item, rotateHandle);
         item.addEventListener('click', (e) => selectItem(item, e));
         return item;
@@ -435,7 +449,9 @@ window.addEventListener('load', function() {
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'deleteItemBtn';
         deleteBtn.innerHTML = '×';
-        deleteBtn.style.display = canDelete(userId) ? 'block' : 'none';
+        if (!canDelete(userId)) {
+            deleteBtn.style.display = 'none !important';
+        }
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
             if (canDelete(userId)) {
