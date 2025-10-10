@@ -14,6 +14,9 @@
 	<link rel="stylesheet" href="./static/css/style.css">
 	<link rel="stylesheet" href="./static/css/root.css">
 	<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&family=Fredoka+One&family=Permanent+Marker&family=Bebas+Neue&family=Righteous&family=Lobster&family=Indie+Flower&display=swap" rel="stylesheet">
+	<!-- APlayer CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.css">
 
 </head>
 
@@ -673,7 +676,24 @@ with Self-Supervised Learning
 		<div onclick="" class="tc-main">
 			<img class="tc-img" src="" alt="" srcset="">
 		</div>
+	</div>
 
+	<!-- Music Player -->
+	<div id="music-player-container">
+		<meting-js
+			server="netease"
+			type="playlist"
+			id="2829883691"
+			fixed="true"
+			mini="true"
+			autoplay="false"
+			theme="#747bff"
+			loop="all"
+			order="list"
+			preload="auto"
+			list-folded="true"
+			list-max-height="400px">
+		</meting-js>
 	</div>
 </body>
 
@@ -711,6 +731,10 @@ with Self-Supervised Learning
 </script>
 
 <script src="./static/js/script.js"> </script>
+
+<!-- APlayer & Meting JS -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
 
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>LA.init({ id: "KFqltKSkJgQTGD9l", ck: "KFqltKSkJgQTGD9l" })</script>
