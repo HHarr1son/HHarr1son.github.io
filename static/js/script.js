@@ -904,3 +904,296 @@ window.addEventListener('load', function() {
     loadBoardItems();
 })();
 
+// A Researcher's Day Timeline
+(function() {
+    const timeSlider = document.getElementById('timeSlider');
+    const currentTime = document.getElementById('currentTime');
+    const currentActivity = document.getElementById('currentActivity');
+    const sceneIcon = document.querySelector('.sceneIcon');
+    const sceneBubble = document.getElementById('sceneBubble');
+
+    if (!timeSlider) return;
+
+    const schedule = {
+        0: { activity: 'Late night coding session 💻', icon: '💻', bubble: 'Bug fixing at midnight!' },
+        1: { activity: 'Still coding... 🌙', icon: '🌙', bubble: 'Almost there...' },
+        2: { activity: 'Finally going to sleep 😴', icon: '😴', bubble: 'Tomorrow is another day' },
+        3: { activity: 'Deep sleep 💤', icon: '💤', bubble: 'Zzz...' },
+        4: { activity: 'Deep sleep 💤', icon: '💤', bubble: 'Zzz...' },
+        5: { activity: 'Deep sleep 💤', icon: '💤', bubble: 'Zzz...' },
+        6: { activity: 'Waking up 🌅', icon: '🌅', bubble: 'New day begins!' },
+        7: { activity: 'Morning coffee ☕', icon: '☕', bubble: 'First coffee!' },
+        8: { activity: 'Breakfast and news 📰', icon: '🍳', bubble: 'Checking research updates' },
+        9: { activity: 'Starting work - emails 📧', icon: '📧', bubble: 'Replying to collaborators' },
+        10: { activity: 'Deep work on research 🔬', icon: '🔬', bubble: 'EEG data analysis' },
+        11: { activity: 'Paper writing ✍️', icon: '✍️', bubble: 'Working on NeurIPS paper' },
+        12: { activity: 'Lunch break 🍜', icon: '🍜', bubble: 'Ramen time!' },
+        13: { activity: 'Reading papers 📚', icon: '📚', bubble: 'Latest arXiv papers' },
+        14: { activity: 'Lab meeting 👥', icon: '👥', bubble: 'Discussing results' },
+        15: { activity: 'Coffee break ☕', icon: '☕', bubble: 'Third coffee of the day' },
+        16: { activity: 'Model training 🤖', icon: '🤖', bubble: 'Training neural networks' },
+        17: { activity: 'Code review & debugging 🐛', icon: '🐛', bubble: 'Fixing bugs' },
+        18: { activity: 'Gym time 💪', icon: '💪', bubble: 'Staying healthy!' },
+        19: { activity: 'Dinner 🍱', icon: '🍱', bubble: 'Cooking time' },
+        20: { activity: 'Gaming session 🎮', icon: '🎮', bubble: 'CS2 ranked match!' },
+        21: { activity: 'Reading & relaxing 📖', icon: '📖', bubble: 'Novel reading' },
+        22: { activity: 'Personal projects 💡', icon: '💡', bubble: 'Working on side projects' },
+        23: { activity: 'Late night research 🌃', icon: '🌃', bubble: 'Best ideas come at night' }
+    };
+
+    function updateTimeline() {
+        const hour = parseInt(timeSlider.value);
+        const data = schedule[hour];
+
+        currentTime.textContent = `${hour.toString().padStart(2, '0')}:00`;
+        currentActivity.textContent = data.activity;
+        sceneIcon.textContent = data.icon;
+        sceneBubble.textContent = data.bubble;
+    }
+
+    timeSlider.addEventListener('input', updateTimeline);
+    updateTimeline();
+})();
+
+// Achievement System
+(function() {
+    const achievementGrid = document.getElementById('achievementGrid');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+
+    if (!achievementGrid) return;
+
+    const achievements = [
+        { id: 'first_visit', name: 'First Visit', desc: 'Welcome!', icon: '👋', condition: () => true },
+        { id: 'scroll_master', name: 'Scroll Master', desc: 'Scrolled to bottom', icon: '📜', condition: () => checkScrolled() },
+        { id: 'message_sender', name: 'Messenger', desc: 'Left a message', icon: '✉️', condition: () => checkMessageSent() },
+        { id: 'paper_reader', name: 'Paper Reader', desc: 'Clicked a paper', icon: '📄', condition: () => checkPaperClicked() },
+        { id: 'time_traveler', name: 'Time Traveler', desc: 'Explored timeline', icon: '⏰', condition: () => checkTimelineUsed() },
+        { id: 'night_owl', name: 'Night Owl', desc: 'Visited at night', icon: '🦉', condition: () => checkNightVisit() },
+        { id: 'explorer', name: 'Explorer', desc: 'Visited all sections', icon: '🗺️', condition: () => checkAllSections() },
+        { id: 'dedicated', name: 'Dedicated', desc: 'Spent 5+ minutes', icon: '⭐', condition: () => checkTimeSpent() }
+    ];
+
+    let unlockedAchievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+    let visitTime = Date.now();
+
+    function checkScrolled() {
+        return localStorage.getItem('scrolled_bottom') === 'true';
+    }
+
+    function checkMessageSent() {
+        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
+        return messages.length > 0;
+    }
+
+    function checkPaperClicked() {
+        return localStorage.getItem('paper_clicked') === 'true';
+    }
+
+    function checkTimelineUsed() {
+        return localStorage.getItem('timeline_used') === 'true';
+    }
+
+    function checkNightVisit() {
+        const hour = new Date().getHours();
+        return hour >= 22 || hour < 6;
+    }
+
+    function checkAllSections() {
+        return localStorage.getItem('all_sections_visited') === 'true';
+    }
+
+    function checkTimeSpent() {
+        return Date.now() - visitTime > 300000; // 5 minutes
+    }
+
+    function unlockAchievement(id) {
+        if (!unlockedAchievements.includes(id)) {
+            unlockedAchievements.push(id);
+            localStorage.setItem('achievements', JSON.stringify(unlockedAchievements));
+            updateAchievements();
+        }
+    }
+
+    function createBadge(achievement) {
+        const isUnlocked = unlockedAchievements.includes(achievement.id);
+        const badge = document.createElement('div');
+        badge.className = `achievementBadge ${isUnlocked ? 'unlocked' : 'locked'}`;
+        badge.innerHTML = `
+            <div class="badgeIcon">${achievement.icon}</div>
+            <div class="badgeName">${achievement.name}</div>
+            <div class="badgeDesc">${achievement.desc}</div>
+        `;
+        return badge;
+    }
+
+    function updateAchievements() {
+        achievementGrid.innerHTML = '';
+        achievements.forEach(achievement => {
+            if (achievement.condition()) {
+                unlockAchievement(achievement.id);
+            }
+            achievementGrid.appendChild(createBadge(achievement));
+        });
+
+        const progress = (unlockedAchievements.length / achievements.length) * 100;
+        progressFill.style.width = progress + '%';
+        progressText.textContent = `${unlockedAchievements.length} / ${achievements.length} Achievements Unlocked`;
+    }
+
+    // Track scroll
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            localStorage.setItem('scrolled_bottom', 'true');
+            updateAchievements();
+        }
+    });
+
+    // Track timeline usage
+    const timeSlider = document.getElementById('timeSlider');
+    if (timeSlider) {
+        timeSlider.addEventListener('input', () => {
+            localStorage.setItem('timeline_used', 'true');
+            updateAchievements();
+        });
+    }
+
+    // Track paper clicks
+    document.querySelectorAll('.paperLink').forEach(link => {
+        link.addEventListener('click', () => {
+            localStorage.setItem('paper_clicked', 'true');
+            updateAchievements();
+        });
+    });
+
+    // Check time spent
+    setInterval(() => {
+        if (checkTimeSpent()) {
+            updateAchievements();
+        }
+    }, 60000); // Check every minute
+
+    updateAchievements();
+})();
+
+// Data Visualization
+(function() {
+    const totalVisitorsEl = document.getElementById('totalVisitors');
+    const uniqueCountriesEl = document.getElementById('uniqueCountries');
+    const messageCountEl = document.getElementById('messageCount');
+    const avgTimeEl = document.getElementById('avgTime');
+    const activityListEl = document.getElementById('activityList');
+    const canvas = document.getElementById('visitChart');
+
+    if (!canvas) return;
+
+    // Update visitor stats
+    function updateStats() {
+        let visits = parseInt(localStorage.getItem('totalVisits') || '0');
+        visits++;
+        localStorage.setItem('totalVisits', visits.toString());
+
+        // Animate counter
+        animateValue(totalVisitorsEl, 0, visits, 1000);
+
+        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
+        animateValue(messageCountEl, 0, messages.length, 1000);
+
+        // Simulate other stats
+        animateValue(uniqueCountriesEl, 0, Math.min(visits * 2, 50), 1000);
+
+        const avgTime = Math.floor(Math.random() * 120) + 30;
+        avgTimeEl.textContent = avgTime + 's';
+    }
+
+    function animateValue(element, start, end, duration) {
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= end) {
+                current = end;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 16);
+    }
+
+    // Draw simple chart
+    function drawChart() {
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+
+        ctx.clearRect(0, 0, width, height);
+
+        // Generate sample data
+        const data = Array.from({ length: 7 }, () => Math.floor(Math.random() * 100) + 20);
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+        const barWidth = width / data.length - 20;
+        const maxValue = Math.max(...data);
+
+        // Draw bars
+        data.forEach((value, index) => {
+            const barHeight = (value / maxValue) * (height - 40);
+            const x = index * (width / data.length) + 10;
+            const y = height - barHeight - 20;
+
+            // Gradient
+            const gradient = ctx.createLinearGradient(0, y, 0, height);
+            gradient.addColorStop(0, '#747bff');
+            gradient.addColorStop(1, '#9b59b6');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(x, y, barWidth, barHeight);
+
+            // Day labels
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(days[index], x + barWidth / 2, height - 5);
+
+            // Value labels
+            ctx.fillText(value, x + barWidth / 2, y - 5);
+        });
+    }
+
+    // Add recent activities
+    function addActivity(icon, text) {
+        const activities = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+        activities.unshift({ icon, text, time: new Date().toLocaleTimeString() });
+        if (activities.length > 5) activities.pop();
+        localStorage.setItem('recentActivities', JSON.stringify(activities));
+        renderActivities();
+    }
+
+    function renderActivities() {
+        const activities = JSON.parse(localStorage.getItem('recentActivities') || '[]');
+        activityListEl.innerHTML = '';
+
+        activities.forEach(activity => {
+            const item = document.createElement('div');
+            item.className = 'activityItem';
+            item.innerHTML = `
+                <div class="activityIcon">${activity.icon}</div>
+                <div class="activityContent">
+                    <div class="activityText">${activity.text}</div>
+                    <div class="activityTime">${activity.time}</div>
+                </div>
+            `;
+            activityListEl.appendChild(item);
+        });
+    }
+
+    updateStats();
+    drawChart();
+    renderActivities();
+    addActivity('👋', 'New visitor arrived');
+
+    // Update chart periodically
+    setInterval(drawChart, 5000);
+})();
+
