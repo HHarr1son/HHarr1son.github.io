@@ -1235,30 +1235,32 @@ window.addEventListener('load', function() {
     updateAchievements();
 })();
 
-// World Map Visualization
+// Live Statistics Visualization
 (function() {
     const totalVisitorsEl = document.getElementById('totalVisitors');
-    const uniqueCountriesEl = document.getElementById('uniqueCountries');
+    const pageViewsEl = document.getElementById('pageViews');
+    const avgTimeEl = document.getElementById('avgTime');
+    const totalMessagesEl = document.getElementById('totalMessages');
     const activityListEl = document.getElementById('activityList');
-    const worldMap = document.getElementById('worldMap');
+    const chartBarsEl = document.getElementById('chartBars');
 
-    if (!worldMap) return;
+    if (!totalVisitorsEl) return;
 
-    // Visitor location coordinates for different continents (scaled for viewBox 0 0 2000 1000)
-    const locations = [
-        { x: 750, y: 240, continent: 'Europe' },
-        { x: 840, y: 250, continent: 'Europe' },
-        { x: 1200, y: 280, continent: 'Asia' },
-        { x: 1400, y: 300, continent: 'Asia' },
-        { x: 1100, y: 320, continent: 'Asia' },
-        { x: 800, y: 500, continent: 'Africa' },
-        { x: 850, y: 550, continent: 'Africa' },
-        { x: 280, y: 250, continent: 'North America' },
-        { x: 350, y: 280, continent: 'North America' },
-        { x: 450, y: 550, continent: 'South America' },
-        { x: 500, y: 600, continent: 'South America' },
-        { x: 1550, y: 640, continent: 'Australia' }
-    ];
+    // Generate weekly activity chart
+    function generateWeeklyChart() {
+        const weekData = JSON.parse(localStorage.getItem('weeklyActivity') || '[12, 19, 15, 25, 22, 18, 30]');
+
+        chartBarsEl.innerHTML = '';
+        const maxValue = Math.max(...weekData);
+
+        weekData.forEach((value, index) => {
+            const bar = document.createElement('div');
+            bar.className = 'chartBar';
+            bar.style.height = `${(value / maxValue) * 100}%`;
+            bar.setAttribute('data-value', value);
+            chartBarsEl.appendChild(bar);
+        });
+    }
 
     // Update visitor stats
     function updateStats() {
@@ -1268,6 +1270,7 @@ window.addEventListener('load', function() {
         }
 
         const visitsRef = window.firebaseRef(window.firebaseDB, 'stats/totalVisits');
+        const startTime = Date.now();
 
         // Increment visit count
         window.firebaseGet(visitsRef).then((snapshot) => {
@@ -1275,26 +1278,28 @@ window.addEventListener('load', function() {
             const newVisits = currentVisits + 1;
             window.firebaseSet(visitsRef, newVisits);
 
-            // Animate counter
+            // Animate counters
             animateValue(totalVisitorsEl, 0, newVisits, 1000);
+            animateValue(pageViewsEl, 0, newVisits * 2 + Math.floor(Math.random() * 10), 1200);
 
-            // Simulate countries based on visits
-            const countries = Math.min(Math.floor(newVisits / 2) + 1, locations.length);
-            animateValue(uniqueCountriesEl, 0, countries, 1000);
-
-            // Add visitor markers to map
-            addVisitorMarkers(countries);
+            // Simulate messages count
+            const messagesCount = Math.floor(newVisits * 0.3);
+            animateValue(totalMessagesEl, 0, messagesCount, 1000);
         });
 
         // Listen for real-time updates
         window.firebaseOnValue(visitsRef, (snapshot) => {
             const visits = snapshot.val() || 0;
             totalVisitorsEl.textContent = visits;
-
-            const countries = Math.min(Math.floor(visits / 2) + 1, locations.length);
-            uniqueCountriesEl.textContent = countries;
-            addVisitorMarkers(countries);
+            pageViewsEl.textContent = visits * 2 + Math.floor(Math.random() * 10);
+            totalMessagesEl.textContent = Math.floor(visits * 0.3);
         });
+
+        // Update average time spent
+        setInterval(() => {
+            const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+            avgTimeEl.textContent = `${timeSpent}s`;
+        }, 1000);
     }
 
     function animateValue(element, start, end, duration) {
@@ -1310,27 +1315,6 @@ window.addEventListener('load', function() {
             }
             element.textContent = Math.floor(current);
         }, 16);
-    }
-
-    // Add visitor markers to world map
-    function addVisitorMarkers(count) {
-        const svg = worldMap.querySelector('svg');
-
-        // Remove old markers
-        svg.querySelectorAll('.visitor-marker').forEach(m => m.remove());
-
-        // Add new markers
-        for (let i = 0; i < count && i < locations.length; i++) {
-            const location = locations[i];
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('class', 'visitor-marker');
-            circle.setAttribute('cx', location.x);
-            circle.setAttribute('cy', location.y);
-            circle.setAttribute('r', '6');
-            circle.setAttribute('data-continent', location.continent);
-
-            svg.appendChild(circle);
-        }
     }
 
     // Add recent activities
@@ -1379,6 +1363,7 @@ window.addEventListener('load', function() {
         addActivity(randomActivity.icon, randomActivity.text);
     }
 
+    generateWeeklyChart();
     updateStats();
     renderActivities();
     addRandomActivity();
@@ -1389,5 +1374,13 @@ window.addEventListener('load', function() {
             addRandomActivity();
         }
     }, 15000); // Check every 15 seconds
+
+    // Update weekly chart occasionally
+    setInterval(() => {
+        const weekData = JSON.parse(localStorage.getItem('weeklyActivity') || '[12, 19, 15, 25, 22, 18, 30]');
+        weekData[Math.floor(Math.random() * 7)] += Math.floor(Math.random() * 3) + 1;
+        localStorage.setItem('weeklyActivity', JSON.stringify(weekData));
+        generateWeeklyChart();
+    }, 30000); // Update every 30 seconds
 })();
 
