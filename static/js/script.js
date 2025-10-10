@@ -274,28 +274,56 @@ window.addEventListener('load', function() {
 
     const currentUserId = getUserId();
 
-    // Load saved items from localStorage
-    function loadBoardItems() {
-        const saved = localStorage.getItem('messageBoardItems');
-        if (saved) {
-            try {
-                const items = JSON.parse(saved);
-                items.forEach(item => {
-                    if (item.type === 'text') {
-                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id, item.rotation, item.zIndex, item.width, item.height);
-                    } else if (item.type === 'image') {
-                        createImageItem(item.src, item.x, item.y, item.userId, item.id, item.width, item.height, item.rotation, item.zIndex);
-                    }
-                });
-            } catch (e) {
-                console.error('Failed to load board items:', e);
-            }
+    // Wait for Firebase to be ready
+    function waitForFirebase(callback) {
+        if (window.firebaseDB) {
+            callback();
+        } else {
+            setTimeout(() => waitForFirebase(callback), 100);
         }
     }
 
-    // Save items to localStorage
+    // Load saved items from Firebase
+    function loadBoardItems() {
+        waitForFirebase(() => {
+            const itemsRef = window.firebaseRef(window.firebaseDB, 'messageBoardItems');
+            window.firebaseOnValue(itemsRef, (snapshot) => {
+                // Clear existing items
+                blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
+
+                const items = snapshot.val();
+                if (items) {
+                    Object.keys(items).forEach(key => {
+                        const item = items[key];
+                        if (item.type === 'text') {
+                            createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, key, item.rotation, item.zIndex, item.width, item.height);
+                        } else if (item.type === 'image') {
+                            createImageItem(item.src, item.x, item.y, item.userId, key, item.width, item.height, item.rotation, item.zIndex);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Save item to Firebase
+    function saveItemToFirebase(itemId, data) {
+        waitForFirebase(() => {
+            const itemRef = window.firebaseRef(window.firebaseDB, `messageBoardItems/${itemId}`);
+            window.firebaseSet(itemRef, data);
+        });
+    }
+
+    // Delete item from Firebase
+    function deleteItemFromFirebase(itemId) {
+        waitForFirebase(() => {
+            const itemRef = window.firebaseRef(window.firebaseDB, `messageBoardItems/${itemId}`);
+            window.firebaseRemove(itemRef);
+        });
+    }
+
+    // Save items position/rotation updates to Firebase
     function saveBoardItems() {
-        const items = [];
         blackboard.querySelectorAll('.boardItem').forEach(item => {
             const data = {
                 id: item.dataset.id,
@@ -323,9 +351,8 @@ window.addEventListener('load', function() {
                 data.height = parseFloat(item.style.height) || 200;
             }
 
-            items.push(data);
+            saveItemToFirebase(item.dataset.id, data);
         });
-        localStorage.setItem('messageBoardItems', JSON.stringify(items));
     }
 
     // 检查是否可以删除该项
@@ -383,8 +410,7 @@ window.addEventListener('load', function() {
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
             if (canDelete(userId)) {
-                item.remove();
-                saveBoardItems();
+                deleteItemFromFirebase(id);
             }
         };
 
@@ -455,8 +481,7 @@ window.addEventListener('load', function() {
         deleteBtn.onclick = function(e) {
             e.stopPropagation();
             if (canDelete(userId)) {
-                item.remove();
-                saveBoardItems();
+                deleteItemFromFirebase(id);
             }
         };
 
@@ -834,6 +859,11 @@ window.addEventListener('load', function() {
 
             createTextItem(text, x, y, fontSize, fontFamily, color);
             saveBoardItems();
+
+            // Track achievements
+            localStorage.setItem('has_sent_message', 'true');
+            const count = parseInt(localStorage.getItem('items_created_count') || '0') + 1;
+            localStorage.setItem('items_created_count', count.toString());
         }
     });
 
@@ -851,6 +881,12 @@ window.addEventListener('load', function() {
                 const y = Math.random() * (blackboard.offsetHeight - 250);
                 createImageItem(event.target.result, x, y);
                 saveBoardItems();
+
+                // Track achievements
+                localStorage.setItem('has_sent_message', 'true');
+                localStorage.setItem('has_uploaded_image', 'true');
+                const count = parseInt(localStorage.getItem('items_created_count') || '0') + 1;
+                localStorage.setItem('items_created_count', count.toString());
             };
             reader.readAsDataURL(file);
         }
@@ -863,14 +899,18 @@ window.addEventListener('load', function() {
             if (adminLogin()) {
                 // 登录成功后继续清空操作
                 if (confirm('Are you sure you want to clear the entire board?')) {
-                    blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
-                    localStorage.removeItem('messageBoardItems');
+                    waitForFirebase(() => {
+                        const itemsRef = window.firebaseRef(window.firebaseDB, 'messageBoardItems');
+                        window.firebaseRemove(itemsRef);
+                    });
                 }
             }
         } else {
             if (confirm('Are you sure you want to clear the entire board?')) {
-                blackboard.querySelectorAll('.boardItem').forEach(item => item.remove());
-                localStorage.removeItem('messageBoardItems');
+                waitForFirebase(() => {
+                    const itemsRef = window.firebaseRef(window.firebaseDB, 'messageBoardItems');
+                    window.firebaseRemove(itemsRef);
+                });
             }
         }
     });
@@ -994,8 +1034,7 @@ window.addEventListener('load', function() {
     }
 
     function checkMessageSent() {
-        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
-        return messages.length > 0;
+        return localStorage.getItem('has_sent_message') === 'true';
     }
 
     function checkPaperClicked() {
@@ -1038,13 +1077,11 @@ window.addEventListener('load', function() {
     }
 
     function checkImageUploaded() {
-        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
-        return messages.some(m => m.type === 'image');
+        return localStorage.getItem('has_uploaded_image') === 'true';
     }
 
     function checkMultipleItems() {
-        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
-        return messages.length >= 3;
+        return parseInt(localStorage.getItem('items_created_count') || '0') >= 3;
     }
 
     function checkSpeedrun() {
@@ -1225,19 +1262,39 @@ window.addEventListener('load', function() {
 
     // Update visitor stats
     function updateStats() {
-        let visits = parseInt(localStorage.getItem('totalVisits') || '0');
-        visits++;
-        localStorage.setItem('totalVisits', visits.toString());
+        if (!window.firebaseDB) {
+            setTimeout(updateStats, 100);
+            return;
+        }
 
-        // Animate counter
-        animateValue(totalVisitorsEl, 0, visits, 1000);
+        const visitsRef = window.firebaseRef(window.firebaseDB, 'stats/totalVisits');
 
-        // Simulate countries based on visits
-        const countries = Math.min(Math.floor(visits / 2) + 1, locations.length);
-        animateValue(uniqueCountriesEl, 0, countries, 1000);
+        // Increment visit count
+        window.firebaseGet(visitsRef).then((snapshot) => {
+            const currentVisits = snapshot.val() || 0;
+            const newVisits = currentVisits + 1;
+            window.firebaseSet(visitsRef, newVisits);
 
-        // Add visitor markers to map
-        addVisitorMarkers(countries);
+            // Animate counter
+            animateValue(totalVisitorsEl, 0, newVisits, 1000);
+
+            // Simulate countries based on visits
+            const countries = Math.min(Math.floor(newVisits / 2) + 1, locations.length);
+            animateValue(uniqueCountriesEl, 0, countries, 1000);
+
+            // Add visitor markers to map
+            addVisitorMarkers(countries);
+        });
+
+        // Listen for real-time updates
+        window.firebaseOnValue(visitsRef, (snapshot) => {
+            const visits = snapshot.val() || 0;
+            totalVisitorsEl.textContent = visits;
+
+            const countries = Math.min(Math.floor(visits / 2) + 1, locations.length);
+            uniqueCountriesEl.textContent = countries;
+            addVisitorMarkers(countries);
+        });
     }
 
     function animateValue(element, start, end, duration) {
