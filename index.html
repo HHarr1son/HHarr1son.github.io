@@ -628,30 +628,31 @@ with Self-Supervised Learning
 				</div>
 
 				<div class="dataVisualization">
-					<div class="statsGrid">
-						<div class="statCard">
-							<div class="statIcon">👥</div>
-							<div class="statValue" id="totalVisitors">0</div>
-							<div class="statLabel">Total Visitors</div>
+					<div class="worldMapContainer">
+						<div class="mapHeader">
+							<div class="mapStats">
+								<div class="mapStatItem">
+									<span class="mapStatValue" id="totalVisitors">0</span>
+									<span class="mapStatLabel">Visitors</span>
+								</div>
+								<div class="mapStatItem">
+									<span class="mapStatValue" id="uniqueCountries">0</span>
+									<span class="mapStatLabel">Countries</span>
+								</div>
+							</div>
 						</div>
-						<div class="statCard">
-							<div class="statIcon">🌍</div>
-							<div class="statValue" id="uniqueCountries">0</div>
-							<div class="statLabel">Countries</div>
+						<div class="worldMap" id="worldMap">
+							<svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+								<!-- Simplified world map paths -->
+								<path class="continent" d="M100,100 L150,80 L200,90 L250,70 L280,100 L270,150 L220,180 L150,170 L100,140 Z" data-continent="Europe"/>
+								<path class="continent" d="M280,120 L350,100 L420,110 L480,90 L520,120 L500,200 L420,230 L340,210 L280,180 Z" data-continent="Asia"/>
+								<path class="continent" d="M50,200 L120,190 L180,210 L200,280 L150,320 L80,300 L50,250 Z" data-continent="Africa"/>
+								<path class="continent" d="M600,100 L700,90 L750,120 L720,200 L650,210 L600,180 Z" data-continent="North America"/>
+								<path class="continent" d="M650,250 L720,240 L750,280 L730,350 L670,360 L640,320 Z" data-continent="South America"/>
+								<path class="continent" d="M800,350 L870,340 L900,370 L880,420 L820,430 L800,400 Z" data-continent="Australia"/>
+								<!-- Visitor markers will be added here dynamically -->
+							</svg>
 						</div>
-						<div class="statCard">
-							<div class="statIcon">📝</div>
-							<div class="statValue" id="messageCount">0</div>
-							<div class="statLabel">Messages</div>
-						</div>
-						<div class="statCard">
-							<div class="statIcon">⏱️</div>
-							<div class="statValue" id="avgTime">0s</div>
-							<div class="statLabel">Avg. Time</div>
-						</div>
-					</div>
-					<div class="visitChart">
-						<canvas id="visitChart" width="600" height="200"></canvas>
 					</div>
 					<div class="recentActivity">
 						<h3>Recent Activity</h3>
