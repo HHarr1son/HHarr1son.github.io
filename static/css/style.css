@@ -2184,3 +2184,68 @@ footer {
         font-size: 24px;
     }
 }
+
+/* Music Player Styles */
+#music-player-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+
+/* Customize APlayer theme */
+.aplayer {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(116, 123, 255, 0.3);
+}
+
+.aplayer.aplayer-fixed .aplayer-body {
+    background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.aplayer .aplayer-lrc {
+    text-align: center;
+    color: #fff;
+}
+
+.aplayer .aplayer-lrc p {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+    color: var(--purple_text_color);
+    font-weight: 600;
+}
+
+.aplayer .aplayer-list {
+    background: rgba(0, 0, 0, 0.95) !important;
+}
+
+.aplayer .aplayer-list li {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.aplayer .aplayer-list li:hover {
+    background: rgba(116, 123, 255, 0.1) !important;
+}
+
+.aplayer .aplayer-list li.aplayer-list-light {
+    background: rgba(116, 123, 255, 0.15) !important;
+}
+
+/* Music player toggle button style */
+.aplayer.aplayer-fixed .aplayer-icon {
+    background: var(--purple_text_color) !important;
+}
+
+.aplayer.aplayer-fixed .aplayer-icon:hover {
+    background: rgba(116, 123, 255, 0.8) !important;
+}
+
+/* Make sure player doesn't overlap content */
+body {
+    padding-bottom: 80px;
+}
