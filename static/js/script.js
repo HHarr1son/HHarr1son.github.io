@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     var html = document.querySelector('html');
-    var themeState = getCookie("themeState") || "Light";
+    var themeState = getCookie("themeState") || "Dark";
     var tanChiShe = document.getElementById("tanChiShe");
 
 
@@ -1244,20 +1244,20 @@ window.addEventListener('load', function() {
 
     if (!worldMap) return;
 
-    // Visitor location coordinates for different continents
+    // Visitor location coordinates for different continents (scaled for viewBox 0 0 2000 1000)
     const locations = [
-        { x: 150, y: 120, continent: 'Europe' },
-        { x: 380, y: 140, continent: 'Asia' },
-        { x: 420, y: 110, continent: 'Asia' },
-        { x: 100, y: 240, continent: 'Africa' },
-        { x: 650, y: 140, continent: 'North America' },
-        { x: 700, y: 150, continent: 'North America' },
-        { x: 680, y: 290, continent: 'South America' },
-        { x: 850, y: 380, continent: 'Australia' },
-        { x: 200, y: 100, continent: 'Europe' },
-        { x: 320, y: 180, continent: 'Asia' },
-        { x: 480, y: 160, continent: 'Asia' },
-        { x: 140, y: 280, continent: 'Africa' }
+        { x: 750, y: 240, continent: 'Europe' },
+        { x: 840, y: 250, continent: 'Europe' },
+        { x: 1200, y: 280, continent: 'Asia' },
+        { x: 1400, y: 300, continent: 'Asia' },
+        { x: 1100, y: 320, continent: 'Asia' },
+        { x: 800, y: 500, continent: 'Africa' },
+        { x: 850, y: 550, continent: 'Africa' },
+        { x: 280, y: 250, continent: 'North America' },
+        { x: 350, y: 280, continent: 'North America' },
+        { x: 450, y: 550, continent: 'South America' },
+        { x: 500, y: 600, continent: 'South America' },
+        { x: 1550, y: 640, continent: 'Australia' }
     ];
 
     // Update visitor stats
@@ -1329,9 +1329,6 @@ window.addEventListener('load', function() {
             circle.setAttribute('r', '6');
             circle.setAttribute('data-continent', location.continent);
 
-            // Add pulse animation with delay
-            circle.style.animationDelay = `${i * 0.2}s`;
-
             svg.appendChild(circle);
         }
     }
@@ -1363,8 +1360,34 @@ window.addEventListener('load', function() {
         });
     }
 
+    // Generate diverse random activities
+    function addRandomActivity() {
+        const activityTypes = [
+            { icon: '👋', text: 'New visitor arrived' },
+            { icon: '📝', text: 'Someone left a message' },
+            { icon: '🎵', text: 'Music player opened' },
+            { icon: '🏆', text: 'Achievement unlocked' },
+            { icon: '🗺️', text: 'New country visited' },
+            { icon: '🌙', text: 'Theme switched to dark mode' },
+            { icon: '☀️', text: 'Theme switched to light mode' },
+            { icon: '🖼️', text: 'Image uploaded to board' },
+            { icon: '🎨', text: 'Message board customized' },
+            { icon: '👀', text: 'Project section viewed' }
+        ];
+
+        const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
+        addActivity(randomActivity.icon, randomActivity.text);
+    }
+
     updateStats();
     renderActivities();
-    addActivity('👋', 'New visitor arrived');
+    addRandomActivity();
+
+    // Add random activities periodically
+    setInterval(() => {
+        if (Math.random() > 0.7) { // 30% chance every interval
+            addRandomActivity();
+        }
+    }, 15000); // Check every 15 seconds
 })();
 
