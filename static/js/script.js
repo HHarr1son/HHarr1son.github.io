@@ -283,7 +283,7 @@ window.addEventListener('load', function() {
                     if (item.type === 'text') {
                         createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id);
                     } else if (item.type === 'image') {
-                        createImageItem(item.src, item.x, item.y, item.userId, item.id);
+                        createImageItem(item.src, item.x, item.y, item.userId, item.id, item.width, item.height);
                     }
                 });
             } catch (e) {
@@ -314,6 +314,8 @@ window.addEventListener('load', function() {
                 const imgEl = item.querySelector('.boardImage');
                 data.type = 'image';
                 data.src = imgEl.src;
+                data.width = parseFloat(item.style.width) || 200;
+                data.height = parseFloat(item.style.height) || 200;
             }
 
             items.push(data);
@@ -379,14 +381,18 @@ window.addEventListener('load', function() {
     }
 
     // Create image item
-    function createImageItem(src, x, y, userId, id) {
+    function createImageItem(src, x, y, userId, id, width, height) {
         userId = userId || currentUserId;
         id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        width = width || 200;
+        height = height || 200;
 
         const item = document.createElement('div');
         item.className = 'boardItem imageItem';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
+        item.style.width = width + 'px';
+        item.style.height = height + 'px';
         item.dataset.userId = userId;
         item.dataset.id = id;
 
@@ -406,12 +412,85 @@ window.addEventListener('load', function() {
             }
         };
 
+        // 添加缩放手柄
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'resizeHandle';
+        resizeHandle.innerHTML = '⇲';
+
         item.appendChild(img);
         item.appendChild(deleteBtn);
+        item.appendChild(resizeHandle);
         blackboard.appendChild(item);
 
         makeDraggable(item);
+        makeResizable(item, resizeHandle);
         return item;
+    }
+
+    // Make image resizable
+    function makeResizable(item, handle) {
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight;
+
+        handle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(item.style.width);
+            startHeight = parseInt(item.style.height);
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        handle.addEventListener('touchstart', function(e) {
+            isResizing = true;
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            startWidth = parseInt(item.style.width);
+            startHeight = parseInt(item.style.height);
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isResizing) return;
+
+            const width = startWidth + (e.clientX - startX);
+            const height = startHeight + (e.clientY - startY);
+
+            if (width > 50 && height > 50) {
+                item.style.width = width + 'px';
+                item.style.height = height + 'px';
+            }
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isResizing) return;
+
+            const touch = e.touches[0];
+            const width = startWidth + (touch.clientX - startX);
+            const height = startHeight + (touch.clientY - startY);
+
+            if (width > 50 && height > 50) {
+                item.style.width = width + 'px';
+                item.style.height = height + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isResizing) {
+                isResizing = false;
+                saveBoardItems();
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            if (isResizing) {
+                isResizing = false;
+                saveBoardItems();
+            }
+        });
     }
 
     // Make item draggable
