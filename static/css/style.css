@@ -2023,74 +2023,124 @@ footer {
     -webkit-backdrop-filter: blur(var(--card_filter));
 }
 
-/* World Map Visualization */
-.worldMapContainer {
+/* Stats Cards Grid */
+.statsCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
     background: var(--left_tag_item);
     border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
-.mapHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.statCard:hover {
+    border-color: var(--purple_text_color);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(116, 123, 255, 0.2);
 }
 
-.mapStats {
-    display: flex;
-    gap: 30px;
+.statCardIcon {
+    font-size: 36px;
+    flex-shrink: 0;
 }
 
-.mapStatItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.statCardContent {
+    flex: 1;
 }
 
-.mapStatValue {
-    font-size: 32px;
+.statCardValue {
+    font-size: 28px;
     font-weight: 700;
     color: var(--purple_text_color);
+    line-height: 1.2;
 }
 
-.mapStatLabel {
+.statCardLabel {
     font-size: 12px;
     opacity: 0.6;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
 }
 
-.worldMap {
+/* Activity Chart */
+.activityChart {
+    background: var(--left_tag_item);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.activityChart h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--purple_text_color);
+}
+
+.chartBars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 200px;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+}
+
+.chartBar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--purple_text_color), rgba(116, 123, 255, 0.5));
+    border-radius: 6px 6px 0 0;
     position: relative;
-    width: 100%;
-    min-height: 350px;
-    background: linear-gradient(135deg, rgba(116, 123, 255, 0.05), rgba(155, 89, 182, 0.05));
-    border-radius: 8px;
-    padding: 20px;
-    overflow: hidden;
-}
-
-.worldMap svg {
-    width: 100%;
-    height: 100%;
-}
-
-.continent {
-    fill: rgba(116, 123, 255, 0.2);
-    stroke: var(--purple_text_color);
-    stroke-width: 1;
     transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 10px;
 }
 
-.continent:hover {
-    fill: rgba(116, 123, 255, 0.4);
-    stroke-width: 2;
+.chartBar:hover {
+    filter: brightness(1.2);
+    transform: scaleY(1.05);
 }
 
-.visitor-marker {
-    fill: #e74c3c;
+.chartBar::after {
+    content: attr(data-value);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.chartBar:hover::after {
+    opacity: 1;
+}
+
+.chartLabels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.chartLabels span {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .recentActivity h3 {
@@ -2164,12 +2214,33 @@ footer {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 
-    .statsGrid {
+    .statsCardsGrid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
-    .statValue {
-        font-size: 24px;
+    .statCard {
+        padding: 15px;
+    }
+
+    .statCardIcon {
+        font-size: 28px;
+    }
+
+    .statCardValue {
+        font-size: 22px;
+    }
+
+    .statCardLabel {
+        font-size: 11px;
+    }
+
+    .chartBars {
+        height: 150px;
+    }
+
+    .activityChart {
+        padding: 20px;
     }
 }
 
