@@ -971,7 +971,19 @@ window.addEventListener('load', function() {
         { id: 'time_traveler', name: 'Time Traveler', desc: 'Explored timeline', icon: '⏰', condition: () => checkTimelineUsed() },
         { id: 'night_owl', name: 'Night Owl', desc: 'Visited at night', icon: '🦉', condition: () => checkNightVisit() },
         { id: 'explorer', name: 'Explorer', desc: 'Visited all sections', icon: '🗺️', condition: () => checkAllSections() },
-        { id: 'dedicated', name: 'Dedicated', desc: 'Spent 5+ minutes', icon: '⭐', condition: () => checkTimeSpent() }
+        { id: 'dedicated', name: 'Dedicated', desc: 'Spent 5+ minutes', icon: '⭐', condition: () => checkTimeSpent() },
+        { id: 'code_explorer', name: 'Code Explorer', desc: 'Clicked GitHub', icon: '💻', condition: () => checkGitHubClicked() },
+        { id: 'scholar', name: 'Scholar', desc: 'Clicked Google Scholar', icon: '🎓', condition: () => checkScholarClicked() },
+        { id: 'early_bird', name: 'Early Bird', desc: 'Visited in morning', icon: '🌅', condition: () => checkMorningVisit() },
+        { id: 'afternoon_surfer', name: 'Afternoon Surfer', desc: 'Visited afternoon', icon: '☀️', condition: () => checkAfternoonVisit() },
+        { id: 'image_uploader', name: 'Image Uploader', desc: 'Uploaded an image', icon: '🖼️', condition: () => checkImageUploaded() },
+        { id: 'artist', name: 'Artist', desc: 'Created 3+ items', icon: '🎨', condition: () => checkMultipleItems() },
+        { id: 'speedrunner', name: 'Speedrunner', desc: '5 badges in 2 min', icon: '⚡', condition: () => checkSpeedrun() },
+        { id: 'theme_switcher', name: 'Theme Switcher', desc: 'Changed theme', icon: '🌓', condition: () => checkThemeSwitched() },
+        { id: 'social_butterfly', name: 'Social Butterfly', desc: 'Clicked 3+ social links', icon: '🦋', condition: () => checkSocialClicks() },
+        { id: 'researcher', name: 'Researcher', desc: 'Read 2+ papers', icon: '🔬', condition: () => checkMultiplePapers() },
+        { id: 'curious', name: 'Curious', desc: 'Clicked all hours', icon: '🔍', condition: () => checkAllHours() },
+        { id: 'completionist', name: 'Completionist', desc: 'Unlocked all', icon: '🏆', condition: () => checkAllUnlocked() }
     ];
 
     let unlockedAchievements = JSON.parse(localStorage.getItem('achievements') || '[]');
@@ -1007,8 +1019,66 @@ window.addEventListener('load', function() {
         return Date.now() - visitTime > 300000; // 5 minutes
     }
 
+    function checkGitHubClicked() {
+        return localStorage.getItem('github_clicked') === 'true';
+    }
+
+    function checkScholarClicked() {
+        return localStorage.getItem('scholar_clicked') === 'true';
+    }
+
+    function checkMorningVisit() {
+        const hour = new Date().getHours();
+        return hour >= 6 && hour < 12;
+    }
+
+    function checkAfternoonVisit() {
+        const hour = new Date().getHours();
+        return hour >= 12 && hour < 18;
+    }
+
+    function checkImageUploaded() {
+        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
+        return messages.some(m => m.type === 'image');
+    }
+
+    function checkMultipleItems() {
+        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
+        return messages.length >= 3;
+    }
+
+    function checkSpeedrun() {
+        const firstUnlock = parseInt(localStorage.getItem('first_unlock_time') || Date.now());
+        const timeDiff = Date.now() - firstUnlock;
+        return unlockedAchievements.length >= 5 && timeDiff < 120000; // 2 minutes
+    }
+
+    function checkThemeSwitched() {
+        return localStorage.getItem('theme_switched') === 'true';
+    }
+
+    function checkSocialClicks() {
+        return parseInt(localStorage.getItem('social_click_count') || '0') >= 3;
+    }
+
+    function checkMultiplePapers() {
+        return parseInt(localStorage.getItem('paper_click_count') || '0') >= 2;
+    }
+
+    function checkAllHours() {
+        const hoursClicked = JSON.parse(localStorage.getItem('hours_clicked') || '[]');
+        return hoursClicked.length >= 24;
+    }
+
+    function checkAllUnlocked() {
+        return unlockedAchievements.length >= achievements.length - 1;
+    }
+
     function unlockAchievement(id) {
         if (!unlockedAchievements.includes(id)) {
+            if (unlockedAchievements.length === 0) {
+                localStorage.setItem('first_unlock_time', Date.now().toString());
+            }
             unlockedAchievements.push(id);
             localStorage.setItem('achievements', JSON.stringify(unlockedAchievements));
             updateAchievements();
@@ -1062,9 +1132,61 @@ window.addEventListener('load', function() {
     document.querySelectorAll('.paperLink').forEach(link => {
         link.addEventListener('click', () => {
             localStorage.setItem('paper_clicked', 'true');
+            const count = parseInt(localStorage.getItem('paper_click_count') || '0') + 1;
+            localStorage.setItem('paper_click_count', count.toString());
             updateAchievements();
         });
     });
+
+    // Track GitHub clicks
+    document.querySelectorAll('a[href*="github.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            localStorage.setItem('github_clicked', 'true');
+            const count = parseInt(localStorage.getItem('social_click_count') || '0') + 1;
+            localStorage.setItem('social_click_count', count.toString());
+            updateAchievements();
+        });
+    });
+
+    // Track Google Scholar clicks
+    document.querySelectorAll('a[href*="scholar.google.com"]').forEach(link => {
+        link.addEventListener('click', () => {
+            localStorage.setItem('scholar_clicked', 'true');
+            const count = parseInt(localStorage.getItem('social_click_count') || '0') + 1;
+            localStorage.setItem('social_click_count', count.toString());
+            updateAchievements();
+        });
+    });
+
+    // Track other social clicks
+    document.querySelectorAll('.iconItem').forEach(link => {
+        link.addEventListener('click', () => {
+            const count = parseInt(localStorage.getItem('social_click_count') || '0') + 1;
+            localStorage.setItem('social_click_count', count.toString());
+            updateAchievements();
+        });
+    });
+
+    // Track theme switch
+    const checkbox = document.getElementById('myonoffswitch');
+    if (checkbox) {
+        checkbox.addEventListener('change', () => {
+            localStorage.setItem('theme_switched', 'true');
+            updateAchievements();
+        });
+    }
+
+    // Track all hours clicked in timeline
+    if (timeSlider) {
+        timeSlider.addEventListener('input', () => {
+            const hoursClicked = JSON.parse(localStorage.getItem('hours_clicked') || '[]');
+            const hour = parseInt(timeSlider.value);
+            if (!hoursClicked.includes(hour)) {
+                hoursClicked.push(hour);
+                localStorage.setItem('hours_clicked', JSON.stringify(hoursClicked));
+            }
+        });
+    }
 
     // Check time spent
     setInterval(() => {
@@ -1076,16 +1198,30 @@ window.addEventListener('load', function() {
     updateAchievements();
 })();
 
-// Data Visualization
+// World Map Visualization
 (function() {
     const totalVisitorsEl = document.getElementById('totalVisitors');
     const uniqueCountriesEl = document.getElementById('uniqueCountries');
-    const messageCountEl = document.getElementById('messageCount');
-    const avgTimeEl = document.getElementById('avgTime');
     const activityListEl = document.getElementById('activityList');
-    const canvas = document.getElementById('visitChart');
+    const worldMap = document.getElementById('worldMap');
 
-    if (!canvas) return;
+    if (!worldMap) return;
+
+    // Visitor location coordinates for different continents
+    const locations = [
+        { x: 150, y: 120, continent: 'Europe' },
+        { x: 380, y: 140, continent: 'Asia' },
+        { x: 420, y: 110, continent: 'Asia' },
+        { x: 100, y: 240, continent: 'Africa' },
+        { x: 650, y: 140, continent: 'North America' },
+        { x: 700, y: 150, continent: 'North America' },
+        { x: 680, y: 290, continent: 'South America' },
+        { x: 850, y: 380, continent: 'Australia' },
+        { x: 200, y: 100, continent: 'Europe' },
+        { x: 320, y: 180, continent: 'Asia' },
+        { x: 480, y: 160, continent: 'Asia' },
+        { x: 140, y: 280, continent: 'Africa' }
+    ];
 
     // Update visitor stats
     function updateStats() {
@@ -1096,14 +1232,12 @@ window.addEventListener('load', function() {
         // Animate counter
         animateValue(totalVisitorsEl, 0, visits, 1000);
 
-        const messages = JSON.parse(localStorage.getItem('messageBoardItems') || '[]');
-        animateValue(messageCountEl, 0, messages.length, 1000);
+        // Simulate countries based on visits
+        const countries = Math.min(Math.floor(visits / 2) + 1, locations.length);
+        animateValue(uniqueCountriesEl, 0, countries, 1000);
 
-        // Simulate other stats
-        animateValue(uniqueCountriesEl, 0, Math.min(visits * 2, 50), 1000);
-
-        const avgTime = Math.floor(Math.random() * 120) + 30;
-        avgTimeEl.textContent = avgTime + 's';
+        // Add visitor markers to map
+        addVisitorMarkers(countries);
     }
 
     function animateValue(element, start, end, duration) {
@@ -1121,44 +1255,28 @@ window.addEventListener('load', function() {
         }, 16);
     }
 
-    // Draw simple chart
-    function drawChart() {
-        const ctx = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
+    // Add visitor markers to world map
+    function addVisitorMarkers(count) {
+        const svg = worldMap.querySelector('svg');
 
-        ctx.clearRect(0, 0, width, height);
+        // Remove old markers
+        svg.querySelectorAll('.visitor-marker').forEach(m => m.remove());
 
-        // Generate sample data
-        const data = Array.from({ length: 7 }, () => Math.floor(Math.random() * 100) + 20);
-        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        // Add new markers
+        for (let i = 0; i < count && i < locations.length; i++) {
+            const location = locations[i];
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('class', 'visitor-marker');
+            circle.setAttribute('cx', location.x);
+            circle.setAttribute('cy', location.y);
+            circle.setAttribute('r', '6');
+            circle.setAttribute('data-continent', location.continent);
 
-        const barWidth = width / data.length - 20;
-        const maxValue = Math.max(...data);
+            // Add pulse animation with delay
+            circle.style.animationDelay = `${i * 0.2}s`;
 
-        // Draw bars
-        data.forEach((value, index) => {
-            const barHeight = (value / maxValue) * (height - 40);
-            const x = index * (width / data.length) + 10;
-            const y = height - barHeight - 20;
-
-            // Gradient
-            const gradient = ctx.createLinearGradient(0, y, 0, height);
-            gradient.addColorStop(0, '#747bff');
-            gradient.addColorStop(1, '#9b59b6');
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(x, y, barWidth, barHeight);
-
-            // Day labels
-            ctx.fillStyle = '#fff';
-            ctx.font = '12px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(days[index], x + barWidth / 2, height - 5);
-
-            // Value labels
-            ctx.fillText(value, x + barWidth / 2, y - 5);
-        });
+            svg.appendChild(circle);
+        }
     }
 
     // Add recent activities
@@ -1189,11 +1307,7 @@ window.addEventListener('load', function() {
     }
 
     updateStats();
-    drawChart();
     renderActivities();
     addActivity('👋', 'New visitor arrived');
-
-    // Update chart periodically
-    setInterval(drawChart, 5000);
 })();
 
