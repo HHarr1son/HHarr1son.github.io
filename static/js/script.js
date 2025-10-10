@@ -240,6 +240,7 @@ window.addEventListener('load', function() {
     let draggedItem = null;
     let offsetX = 0;
     let offsetY = 0;
+    let selectedItem = null;
 
     // 获取或生成用户唯一ID
     function getUserId() {
@@ -281,9 +282,9 @@ window.addEventListener('load', function() {
                 const items = JSON.parse(saved);
                 items.forEach(item => {
                     if (item.type === 'text') {
-                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id);
+                        createTextItem(item.content, item.x, item.y, item.fontSize, item.fontFamily, item.color, item.userId, item.id, item.rotation, item.zIndex);
                     } else if (item.type === 'image') {
-                        createImageItem(item.src, item.x, item.y, item.userId, item.id, item.width, item.height);
+                        createImageItem(item.src, item.x, item.y, item.userId, item.id, item.width, item.height, item.rotation, item.zIndex);
                     }
                 });
             } catch (e) {
@@ -300,7 +301,9 @@ window.addEventListener('load', function() {
                 id: item.dataset.id,
                 userId: item.dataset.userId,
                 x: parseFloat(item.style.left) || 0,
-                y: parseFloat(item.style.top) || 0
+                y: parseFloat(item.style.top) || 0,
+                rotation: parseFloat(item.dataset.rotation) || 0,
+                zIndex: parseInt(item.style.zIndex) || 1
             };
 
             if (item.classList.contains('textItem')) {
@@ -342,16 +345,21 @@ window.addEventListener('load', function() {
     }
 
     // Create text item
-    function createTextItem(text, x, y, fontSize, fontFamily, color, userId, id) {
+    function createTextItem(text, x, y, fontSize, fontFamily, color, userId, id, rotation, zIndex) {
         userId = userId || currentUserId;
         id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        rotation = rotation || 0;
+        zIndex = zIndex || 1;
 
         const item = document.createElement('div');
         item.className = 'boardItem textItem';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
+        item.style.zIndex = zIndex;
         item.dataset.userId = userId;
         item.dataset.id = id;
+        item.dataset.rotation = rotation;
+        item.style.transform = `rotate(${rotation}deg)`;
 
         const textDiv = document.createElement('div');
         textDiv.className = 'boardText';
@@ -372,20 +380,41 @@ window.addEventListener('load', function() {
             }
         };
 
+        const rotateHandle = document.createElement('div');
+        rotateHandle.className = 'rotateHandle';
+        rotateHandle.innerHTML = '↻';
+
+        const editBtn = document.createElement('div');
+        editBtn.className = 'editTextBtn';
+        editBtn.innerHTML = '✎ Edit';
+        editBtn.onclick = function(e) {
+            e.stopPropagation();
+            editText(item, textDiv);
+        };
+
+        const toolbar = createToolbar(item);
+
         item.appendChild(textDiv);
         item.appendChild(deleteBtn);
+        item.appendChild(rotateHandle);
+        item.appendChild(editBtn);
+        item.appendChild(toolbar);
         blackboard.appendChild(item);
 
         makeDraggable(item);
+        makeRotatable(item, rotateHandle);
+        item.addEventListener('click', (e) => selectItem(item, e));
         return item;
     }
 
     // Create image item
-    function createImageItem(src, x, y, userId, id, width, height) {
+    function createImageItem(src, x, y, userId, id, width, height, rotation, zIndex) {
         userId = userId || currentUserId;
         id = id || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         width = width || 200;
         height = height || 200;
+        rotation = rotation || 0;
+        zIndex = zIndex || 1;
 
         const item = document.createElement('div');
         item.className = 'boardItem imageItem';
@@ -393,8 +422,11 @@ window.addEventListener('load', function() {
         item.style.top = y + 'px';
         item.style.width = width + 'px';
         item.style.height = height + 'px';
+        item.style.zIndex = zIndex;
         item.dataset.userId = userId;
         item.dataset.id = id;
+        item.dataset.rotation = rotation;
+        item.style.transform = `rotate(${rotation}deg)`;
 
         const img = document.createElement('img');
         img.className = 'boardImage';
@@ -412,18 +444,27 @@ window.addEventListener('load', function() {
             }
         };
 
-        // 添加缩放手柄
         const resizeHandle = document.createElement('div');
         resizeHandle.className = 'resizeHandle';
         resizeHandle.innerHTML = '⇲';
 
+        const rotateHandle = document.createElement('div');
+        rotateHandle.className = 'rotateHandle';
+        rotateHandle.innerHTML = '↻';
+
+        const toolbar = createToolbar(item);
+
         item.appendChild(img);
         item.appendChild(deleteBtn);
         item.appendChild(resizeHandle);
+        item.appendChild(rotateHandle);
+        item.appendChild(toolbar);
         blackboard.appendChild(item);
 
         makeDraggable(item);
         makeResizable(item, resizeHandle);
+        makeRotatable(item, rotateHandle);
+        item.addEventListener('click', (e) => selectItem(item, e));
         return item;
     }
 
@@ -491,6 +532,224 @@ window.addEventListener('load', function() {
                 saveBoardItems();
             }
         });
+    }
+
+    // Make item rotatable
+    function makeRotatable(item, handle) {
+        let isRotating = false;
+        let startAngle = 0;
+        let currentRotation = parseFloat(item.dataset.rotation) || 0;
+
+        handle.addEventListener('mousedown', function(e) {
+            isRotating = true;
+            const rect = item.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            startAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        handle.addEventListener('touchstart', function(e) {
+            isRotating = true;
+            const touch = e.touches[0];
+            const rect = item.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            startAngle = Math.atan2(touch.clientY - centerY, touch.clientX - centerX) * 180 / Math.PI;
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isRotating) return;
+
+            const rect = item.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+            const rotation = currentRotation + (angle - startAngle);
+
+            item.dataset.rotation = rotation;
+            item.style.transform = `rotate(${rotation}deg)`;
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isRotating) return;
+
+            const touch = e.touches[0];
+            const rect = item.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const angle = Math.atan2(touch.clientY - centerY, touch.clientX - centerX) * 180 / Math.PI;
+            const rotation = currentRotation + (angle - startAngle);
+
+            item.dataset.rotation = rotation;
+            item.style.transform = `rotate(${rotation}deg)`;
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isRotating) {
+                isRotating = false;
+                currentRotation = parseFloat(item.dataset.rotation) || 0;
+                saveBoardItems();
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            if (isRotating) {
+                isRotating = false;
+                currentRotation = parseFloat(item.dataset.rotation) || 0;
+                saveBoardItems();
+            }
+        });
+    }
+
+    // Select item
+    function selectItem(item, e) {
+        if (e) e.stopPropagation();
+
+        if (selectedItem) {
+            selectedItem.classList.remove('selected');
+        }
+
+        selectedItem = item;
+        item.classList.add('selected');
+    }
+
+    // Deselect item when clicking blackboard
+    blackboard.addEventListener('click', function(e) {
+        if (e.target === blackboard || e.target.classList.contains('boardTexture')) {
+            if (selectedItem) {
+                selectedItem.classList.remove('selected');
+                selectedItem = null;
+            }
+        }
+    });
+
+    // Edit text
+    function editText(item, textDiv) {
+        const newText = prompt('Edit text:', textDiv.textContent);
+        if (newText !== null && newText.trim()) {
+            textDiv.textContent = newText;
+            saveBoardItems();
+        }
+    }
+
+    // Create toolbar
+    function createToolbar(item) {
+        const toolbar = document.createElement('div');
+        toolbar.className = 'itemToolbar';
+
+        const bringFrontBtn = document.createElement('button');
+        bringFrontBtn.className = 'toolbarBtn';
+        bringFrontBtn.innerHTML = '↑ Front';
+        bringFrontBtn.onclick = function(e) {
+            e.stopPropagation();
+            const maxZ = Math.max(...Array.from(blackboard.querySelectorAll('.boardItem')).map(i => parseInt(i.style.zIndex) || 1));
+            item.style.zIndex = maxZ + 1;
+            saveBoardItems();
+        };
+
+        const sendBackBtn = document.createElement('button');
+        sendBackBtn.className = 'toolbarBtn';
+        sendBackBtn.innerHTML = '↓ Back';
+        sendBackBtn.onclick = function(e) {
+            e.stopPropagation();
+            const minZ = Math.min(...Array.from(blackboard.querySelectorAll('.boardItem')).map(i => parseInt(i.style.zIndex) || 1));
+            item.style.zIndex = Math.max(1, minZ - 1);
+            saveBoardItems();
+        };
+
+        const duplicateBtn = document.createElement('button');
+        duplicateBtn.className = 'toolbarBtn';
+        duplicateBtn.innerHTML = '⊕ Copy';
+        duplicateBtn.onclick = function(e) {
+            e.stopPropagation();
+            duplicateItem(item);
+        };
+
+        toolbar.appendChild(bringFrontBtn);
+        toolbar.appendChild(sendBackBtn);
+        toolbar.appendChild(duplicateBtn);
+
+        // Add font/size/color controls for text items
+        if (item.classList.contains('textItem')) {
+            const fontBtn = document.createElement('button');
+            fontBtn.className = 'toolbarBtn';
+            fontBtn.innerHTML = '🖋 Font';
+            fontBtn.onclick = function(e) {
+                e.stopPropagation();
+                changeTextStyle(item);
+            };
+            toolbar.appendChild(fontBtn);
+        }
+
+        return toolbar;
+    }
+
+    // Change text style
+    function changeTextStyle(item) {
+        const textDiv = item.querySelector('.boardText');
+        const size = prompt('Font size (12-72):', parseInt(textDiv.style.fontSize));
+        if (size && !isNaN(size)) {
+            textDiv.style.fontSize = Math.max(12, Math.min(72, parseInt(size))) + 'px';
+        }
+
+        const fonts = ['Default', 'Pacifico', 'Dancing Script', 'Fredoka One', 'Permanent Marker', 'Bebas Neue', 'Righteous', 'Lobster', 'Indie Flower'];
+        const fontChoice = prompt('Font:\n' + fonts.map((f, i) => `${i}: ${f}`).join('\n'));
+        if (fontChoice !== null && !isNaN(fontChoice)) {
+            const fontMap = {
+                '0': "'b', 'a', sans-serif",
+                '1': "'Pacifico', cursive",
+                '2': "'Dancing Script', cursive",
+                '3': "'Fredoka One', cursive",
+                '4': "'Permanent Marker', cursive",
+                '5': "'Bebas Neue', cursive",
+                '6': "'Righteous', cursive",
+                '7': "'Lobster', cursive",
+                '8': "'Indie Flower', cursive"
+            };
+            if (fontMap[fontChoice]) {
+                textDiv.style.fontFamily = fontMap[fontChoice];
+            }
+        }
+
+        const color = prompt('Text color (hex):', textDiv.style.color);
+        if (color && color.trim()) {
+            textDiv.style.color = color;
+        }
+
+        saveBoardItems();
+    }
+
+    // Duplicate item
+    function duplicateItem(item) {
+        const x = parseFloat(item.style.left) + 30;
+        const y = parseFloat(item.style.top) + 30;
+
+        if (item.classList.contains('textItem')) {
+            const textDiv = item.querySelector('.boardText');
+            createTextItem(
+                textDiv.textContent,
+                x, y,
+                textDiv.style.fontSize,
+                textDiv.style.fontFamily,
+                textDiv.style.color,
+                currentUserId
+            );
+        } else if (item.classList.contains('imageItem')) {
+            const img = item.querySelector('.boardImage');
+            createImageItem(
+                img.src,
+                x, y,
+                currentUserId,
+                null,
+                parseFloat(item.style.width),
+                parseFloat(item.style.height)
+            );
+        }
+        saveBoardItems();
     }
 
     // Make item draggable
