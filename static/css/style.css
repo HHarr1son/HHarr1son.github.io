@@ -1303,6 +1303,61 @@ footer {
     transform: translateY(-2px);
 }
 
+/* Reviewer section styles */
+.reviewerItem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    margin: 10px;
+    width: calc(50% - 20px);
+    background: var(--item_bg_color);
+    border-radius: 12px;
+    border-left: 4px solid #2ecc71;
+    transition: all 0.3s ease;
+}
+
+.reviewerItem:hover {
+    background: var(--item_hover_color);
+    transform: translateX(8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.reviewerIcon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+.reviewerIcon svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+}
+
+.reviewerContent {
+    flex: 1;
+}
+
+.reviewerTitle {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--main_text_color);
+}
+
+.reviewerJournal {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+
 /* Awards section styles */
 .awardItem {
     display: flex;
@@ -1401,6 +1456,10 @@ footer {
     }
 
     .awardItem {
+        width: calc(100% - 20px);
+    }
+
+    .reviewerItem {
         width: calc(100% - 20px);
     }
 }
